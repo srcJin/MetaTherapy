@@ -23,10 +23,13 @@ app.use(
   })
 );
 
+// import in the landing routes
+const landingRoutes = require('./routes/landing')
+const productRoutes = require('./routes/products');
 async function main() {
-  app.get('/', function(req,res){
-    res.send("Hello World")
-  })
+
+    app.use('/', landingRoutes);
+    app.use('/products', productRoutes)
 }
 
 main();
