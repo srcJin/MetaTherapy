@@ -17,9 +17,12 @@
   },
   "homepage": "https://github.com/kunxin-chor/dwad20-framework#readme",
   "dependencies": {
+    "db-migrate": "^0.11.13",
+    "db-migrate-mysql": "^2.2.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "hbs": "^4.2.0",
+    "mysql": "^2.18.1",
     "wax-on": "^1.2.2"
   }
 }
