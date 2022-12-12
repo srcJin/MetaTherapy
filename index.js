@@ -28,6 +28,9 @@ const landingRoutes = require('./routes/landing')
 const productRoutes = require('./routes/products');
 async function main() {
 
+  // when apply app.use to a router
+  // the first parameter is URL prefix,
+  // the second parameter is the router itself
     app.use('/', landingRoutes);
     app.use('/products', productRoutes)
 }

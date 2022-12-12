@@ -5,3 +5,5 @@
 * `hbs`
 * `wax-on`
 * `dotenv`
+* `knex`
+* `bookshelf`
