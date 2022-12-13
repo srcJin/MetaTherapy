@@ -3,7 +3,7 @@ const express = require('express');
 const { createProductForm, bootstrapField } = require('../forms');
 const router = express.Router();
 
-const {Product} = require('../models');
+const {Product, Category} = require('../models');
 
 router.get('/', async function(req,res){
     // get all the products
@@ -13,16 +13,26 @@ router.get('/', async function(req,res){
     })
 })
 
-router.get('/add', function(req,res){
-    const form = createProductForm();
+router.get('/add', async function(req,res){
+
+    const allCategories = await Category.fetchAll().map( (category)=>{
+        return [category.get("id"), category.get('name')]
+    })
+
+    const form = createProductForm(allCategories);
     res.render('products/create', {
         'form': form.toHTML(bootstrapField)
     })
 })
 
 // process the form
-router.post('/add', function(req,res){
-    const productForm = createProductForm();
+router.post('/add', async function(req,res){
+
+    const allCategories = await Category.fetchAll().map( (category)=>{
+        return [category.get("id"), category.get('name')]
+    })
+
+    const productForm = createProductForm(allCategories);
     productForm.handle(req, {
         'success': async function(form) {
             // executed when all the form fields passed
@@ -34,6 +44,7 @@ router.post('/add', function(req,res){
             productObject.set('name', form.data.name);
             productObject.set('cost', form.data.cost);
             productObject.set('description', form.data.description);
+            productObject.set('category_id', form.data.category_id);
             await productObject.save();
             res.redirect('/products');
         },
@@ -69,11 +80,17 @@ router.get("/update/:product_id", async function(req,res){
     // the `require: true` means that if no results are retrieved, Bookshelf
     // will cause an exception
 
-    const productForm = createProductForm();
+    // get all the categories
+    const allCategories = await Category.fetchAll().map( (category)=>{
+        return [category.get("id"), category.get('name')]
+    })
+
+    const productForm = createProductForm(allCategories);
     // product.get allows us to retrieve one column's value
     productForm.fields.name.value = product.get('name');
     productForm.fields.cost.value = product.get('cost');
     productForm.fields.description.value = product.get('description');
+    productForm.fields.category_id.value = product.get('category_id')
 
     res.render('products/update',{
         'form': productForm.toHTML(bootstrapField)
@@ -118,6 +135,35 @@ router.post('/update/:product_id', async function(req,res){
             })
         }
     })
+
+})
+
+router.get('/delete/:product_id', async function(req,res){
+    // get the product that we want to delete
+    const product = await Product.where({
+        'id': req.params.product_id
+    }).fetch({
+        require: true // means if there is no results, Bookshelf will cause an exception (i.e an error)
+    });
+
+    res.render('products/delete',{
+        'product': product.toJSON()
+    })
+})
+
+router.post('/delete/:product_id', async function(req,res){
+    // retrieving the object that represents the row
+    // which we want to delete
+    const product = await Product.where({
+        'id': req.params.product_id
+    }).fetch({
+        require: true // means if there is no results, Bookshelf will cause an exception (i.e an error)
+    });
+
+    // execute the delete
+    await product.destroy();
+
+    res.redirect('/products')
 
 })
 
