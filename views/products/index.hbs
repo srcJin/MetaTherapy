@@ -8,6 +8,7 @@
         <th>Name</th>
         <th>Cost</th>
         <th>Description</th>
+        <th></th>
     </thead>
     <tbody>
         {{#each products}}
@@ -16,6 +17,9 @@
             <td>{{this.name}}</td>
             <td>{{this.cost}}</td>
             <td>{{this.description}}</td>
+            <td>
+                <a href="/products/update/{{this.id}}" class="btn btn-primary btn-sm">Edit</a>
+            </td>
         </tr>
         {{/each}}
     </tbody>
