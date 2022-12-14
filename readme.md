@@ -8,3 +8,6 @@
 * `knex`
 * `bookshelf`
 * `forms`
+* `express-session`
+* `session-file-store`
+* `connect-flash`

@@ -12,7 +12,53 @@
   </head>
   <body>
      <div class="container">
+        {{!-- Display any success or error messages --}}
+        {{#if success_messages}}
+          {{#each success_messages}}
+            <div class="alert alert-success">
+              {{this}}
+            </div>
+
+          {{/each}}
+        {{/if}}
+
+        {{#if error_messages}}
+          {{#each error_messages}}
+            <div class="alert alert-danger">
+              {{this}}
+            </div>
+          {{/each}}
+        {{/if}}
+
+        <nav class="navbar navbar-expand-sm bg-light">
+
+  <div class="container-fluid">
+    <!-- Links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link 1</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link 2</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link 3</a>
+      </li>
+    </ul>
+    <div>
+      {{#if user}}
+         Welcome back, {{user.username}} <a href="/users/logout" class="btn btn-danger btn-sm">Logout</a>
+      {{else}}
+        Hello guest <a href="/users/login" class="btn btn-success btn-sm">Have an account?</a>
+      {{/if}}
+    </div>
+  </div>
+
+</nav>
+
         {{#block "content"}}{{/block}}
+
+        {{current_datetime}}
      </div>
   </body>
 </html>

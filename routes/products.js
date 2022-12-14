@@ -67,7 +67,8 @@ router.post('/add', async function(req,res){
                 await productObject.tags().attach(tagArray);
             }
 
-        
+            // you can only use a flash message after a redirect
+            req.flash('success_messages', `The new product ${productObject.get('name')} has been created`);
             res.redirect('/products');
         },
         'empty': async function(form) {
@@ -180,7 +181,14 @@ router.post('/update/:product_id', async function(req,res){
             // add back all the tags selected in the form
             await product.tags().attach(tags.split(','));
 
+            // req.flash will add a message to the provided category
+            // if req.flash is called with two parameters
+            // parameter 1 is the category of the flash message
+            // parameter 2 is the message itself
+            // so the flash message is save in the session
+            req.flash('success_messages', "Product has been updated");
             res.redirect('/products');
+          
         },
         'empty': async function(form) {
             // form has no data
