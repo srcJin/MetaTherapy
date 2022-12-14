@@ -15,6 +15,12 @@ const Product = bookshelf.model('Product',{
         // the first parameter is the NAME of the MODEL that the Product model
         // has relationship with
         return this.belongsTo('Category');
+    },
+    tags(){
+        // this.belongsToMany allows us to define a many to many relationship
+        // the first parameter of the belongsToMany function is the MODEL NAME
+        // that is partaking in the relatonship
+        return this.belongsToMany('Tag')
     }
 
 })
@@ -32,9 +38,20 @@ const Category = bookshelf.model('Category',{
     products() {
         // the first parameter is the name of the Model that it has relationship with
         return this.hasMany('Product')
+    },
+  
+})
+
+const Tag = bookshelf.model('Tag', {
+    tableName:'tags',
+    // the function name should be plural form of the Model name, in lower case
+    products() {
+        // the first parameter of the belongsToMany function is the MODEL NAME
+        // that is partaking in the relatonship
+        return this.belongsToMany('Product')
     }
 })
 
 module.exports = {
-   Product, Category
+   Product, Category, Tag
 }

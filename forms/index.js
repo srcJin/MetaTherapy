@@ -26,7 +26,9 @@ var bootstrapField = function (name, object) {
     return '<div class="form-group">' + label + widget + error + '</div>';
 };
 
-const createProductForm = (allCategories=[]) => {
+// if allCategories is null, it will be an empty array
+// if allTags is null, it will be an empty array
+const createProductForm = (allCategories=[], allTags=[]) => {
     // use forms.create to create a new form object
     return forms.create({
         'name': fields.string({
@@ -46,6 +48,7 @@ const createProductForm = (allCategories=[]) => {
             errorAfterField: true
         }),
         'category_id': fields.string({
+            label: "Category",
             required: true,
             errorAfterField: true,
 
@@ -56,6 +59,12 @@ const createProductForm = (allCategories=[]) => {
             // - index 0: the ID of the choice
             // - index 1: the display value of the choice
             choices: allCategories
+        }),
+        'tags': fields.string({
+            'required': true,
+            errorAfterField: true,
+            widget: widgets.multipleSelect(),
+            choices: allTags
         })
     })
 }
