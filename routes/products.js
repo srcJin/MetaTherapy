@@ -28,7 +28,10 @@ router.get('/add', async function(req,res){
 
     const form = createProductForm(allCategories, allTags);
     res.render('products/create', {
-        'form': form.toHTML(bootstrapField)
+        'form': form.toHTML(bootstrapField),
+        "cloudinaryName": process.env.CLOUDINARY_NAME,
+        "cloudinaryApiKey": process.env.CLOUDINARY_API_KEY,
+        "cloudinaryPreset": process.env.CLOUDINARY_UPLOAD_PRESET
     })
 })
 
@@ -49,13 +52,14 @@ router.post('/add', async function(req,res){
             // executed when all the form fields passed
             // validation
             // the first argument will be whatever the user type into the form
-            
+        
             // an instance (or an object) created from a model represents one row in the table
             const productObject = new Product();
             productObject.set('name', form.data.name);
             productObject.set('cost', form.data.cost);
             productObject.set('description', form.data.description);
             productObject.set('category_id', form.data.category_id);
+            productObject.set('image_url', form.data.image_url);
             await productObject.save();
 
             // process the tags
@@ -74,16 +78,20 @@ router.post('/add', async function(req,res){
         'empty': async function(form) {
             // executed if the user just submit without any input
             res.render('products/create',{
-                'form': form.toHTML(bootstrapField)
+                'form': form.toHTML(bootstrapField),
+                "cloudinaryName": process.env.CLOUDINARY_NAME,
+                "cloudinaryApiKey": process.env.CLOUDINARY_API_KEY,
+                "cloudinaryPreset": process.env.CLOUDINARY_UPLOAD_PRESET
             })
         },
         'error': async function(form) {
             // executed if the form has any validation errors
 
-
-
             res.render('products/create',{
-                'form': form.toHTML(bootstrapField)
+                'form': form.toHTML(bootstrapField),
+                "cloudinaryName": process.env.CLOUDINARY_NAME,
+                "cloudinaryApiKey": process.env.CLOUDINARY_API_KEY,
+                "cloudinaryPreset": process.env.CLOUDINARY_UPLOAD_PRESET
             })
         }
     })
@@ -127,7 +135,7 @@ router.get("/update/:product_id", async function(req,res){
     productForm.fields.name.value = product.get('name');
     productForm.fields.cost.value = product.get('cost');
     productForm.fields.description.value = product.get('description');
-    productForm.fields.category_id.value = product.get('category_id')
+    productForm.fields.category_id.value = product.get('category_id');
 
     // retrieve all the IDs of the related tags in an array
     // for example, if the product is related with tag id 2, 3 and 5, then
@@ -139,7 +147,11 @@ router.get("/update/:product_id", async function(req,res){
     productForm.fields.tags.value = selectedTags;
 
     res.render('products/update',{
-        'form': productForm.toHTML(bootstrapField)
+        'form': productForm.toHTML(bootstrapField),
+        "cloudinaryName": process.env.CLOUDINARY_NAME,
+        "cloudinaryApiKey": process.env.CLOUDINARY_API_KEY,
+        "cloudinaryPreset": process.env.CLOUDINARY_UPLOAD_PRESET,
+        'product': product.toJSON()
     });
 })
 
@@ -193,13 +205,19 @@ router.post('/update/:product_id', async function(req,res){
         'empty': async function(form) {
             // form has no data
             res.render('products/update',{
-                'form': form
+                'form': form,
+                "cloudinaryName": process.env.CLOUDINARY_NAME,
+                "cloudinaryApiKey": process.env.CLOUDINARY_API_KEY,
+                "cloudinaryPreset": process.env.CLOUDINARY_UPLOAD_PRESET
             })
         },
         'error': async function(form) {
             // one or more fields have validation errors
             res.render('products/update', {
-                'form': form
+                'form': form,
+                "cloudinaryName": process.env.CLOUDINARY_NAME,
+                "cloudinaryApiKey": process.env.CLOUDINARY_API_KEY,
+                "cloudinaryPreset": process.env.CLOUDINARY_UPLOAD_PRESET
             })
         }
     })

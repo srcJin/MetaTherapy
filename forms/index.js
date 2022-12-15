@@ -65,6 +65,9 @@ const createProductForm = (allCategories=[], allTags=[]) => {
             errorAfterField: true,
             widget: widgets.multipleSelect(),
             choices: allTags
+        }),
+        'image_url': fields.string({
+            widget: widgets.hidden() // this creates a hidden form field
         })
     })
 }

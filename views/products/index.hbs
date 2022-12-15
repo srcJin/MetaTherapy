@@ -9,6 +9,7 @@
         <th>Cost</th>
         <th>Tags</th>
         <th>Description</th>
+        <th>Image</th>
         <th></th>
     </thead>
     <tbody>
@@ -23,6 +24,11 @@
                 {{/each}}
             </td>
             <td>{{this.description}}</td>
+            <td>
+                {{#if this.image_url}}
+                    <img src="{{this.image_url}}"/>
+                {{/if}}
+            </td>
             <td>
                 <a href="/products/update/{{this.id}}" class="btn btn-primary btn-sm">Edit</a>
                 <a href="/products/delete/{{this.id}}" class="btn btn-danger btn-sm">Delete</a>
