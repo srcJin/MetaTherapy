@@ -12,3 +12,4 @@
 * `session-file-store`
 * `connect-flash`
 * `cloudinary`
+* `csurf`
