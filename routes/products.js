@@ -1,5 +1,6 @@
 // require in express
 const express = require('express');
+const { getAllCategories, getAllTags, addProduct } = require('../dal/products');
 const { createProductForm, createSearchForm, bootstrapField } = require('../forms');
 const router = express.Router();
 
@@ -10,15 +11,10 @@ router.get('/', async function(req,res){
     // get all the categories from the table
     // and return them as an array of arrays
     // each array represents one category: [<id>, <name of category>]
-    const allCategories = await Category.fetchAll().map( (category)=>{
-        return [category.get("id"), category.get('name')]
-    })
-
+    const allCategories = await getAllCategories();
     allCategories.unshift(["", 'Any category']);
 
-    const allTags = await Tag.fetchAll().map( tag => {
-        return [tag.get("id"), tag.get("name")];
-    })
+    const allTags = await getAllTags();
 
     const searchForm = createSearchForm(allCategories, allTags);
 
@@ -80,16 +76,13 @@ router.get('/', async function(req,res){
     // res.send("search somehow has error")
 })
 
+
 router.get('/add', async function(req,res){
 
-    const allCategories = await Category.fetchAll().map( (category)=>{
-        return [category.get("id"), category.get('name')]
-    })
+    const allCategories = await getAllCategories();
     allCategories.unshift([0, "Select one category"]);
 
-    const allTags = await Tag.fetchAll().map( tag => {
-        return [tag.get("id"), tag.get("name")];
-    })
+    const allTags = await getAllTags();
 
     const form = createProductForm(allCategories, allTags);
     res.render('products/create', {
@@ -119,22 +112,7 @@ router.post('/add', async function(req,res){
             // the first argument will be whatever the user type into the form
         
             // an instance (or an object) created from a model represents one row in the table
-            const productObject = new Product();
-            productObject.set('name', form.data.name);
-            productObject.set('cost', form.data.cost);
-            productObject.set('description', form.data.description);
-            productObject.set('category_id', form.data.category_id);
-            productObject.set('image_url', form.data.image_url);
-            await productObject.save();
-
-            // process the tags
-            // IMPORTANT: We must have saved the new product first or attach won't work
-            if (form.data.tags) {
-                // change it into an array
-                const tagArray = form.data.tags.split(',');
-                // we add to a many to many relationship with .attach
-                await productObject.tags().attach(tagArray);
-            }
+            const productObject = await addProduct(form.data);
 
             // you can only use a flash message after a redirect
             req.flash('success_messages', `The new product ${productObject.get('name')} has been created`);

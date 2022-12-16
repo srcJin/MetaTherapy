@@ -4,6 +4,7 @@
 <h1>Create a New Product</h1>
 <form method="POST">
     {{{form}}}
+    <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
     <div>
         <a href="#" class="btn btn-primary" id="upload_widget">Upload</a>
         <div>
