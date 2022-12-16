@@ -28,7 +28,7 @@ var bootstrapField = function (name, object) {
 
 // if allCategories is null, it will be an empty array
 // if allTags is null, it will be an empty array
-const createProductForm = (allCategories=[], allTags=[]) => {
+const createProductForm = (allCategories = [], allTags = []) => {
     // use forms.create to create a new form object
     return forms.create({
         'name': fields.string({
@@ -41,7 +41,7 @@ const createProductForm = (allCategories=[], allTags=[]) => {
             // indicate the field must be an integeer
             // IMPORTANT: note the function call
             // in the array
-            validators:[validators.integer()]
+            validators: [validators.integer()]
         }),
         'description': fields.string({
             required: true,
@@ -72,7 +72,7 @@ const createProductForm = (allCategories=[], allTags=[]) => {
     })
 }
 
-const createUserForm = ()=>{
+const createUserForm = () => {
     return forms.create({
         'username': fields.string({
             required: true,
@@ -87,13 +87,13 @@ const createUserForm = ()=>{
             required: true,
             // the value entered for confirm_password field must match that
             // of the password field
-            validators:[validators.matchField('password')]
+            validators: [validators.matchField('password')]
         })
     })
 }
 
 
-const createLoginForm = ()=>{
+const createLoginForm = () => {
     return forms.create({
         'email': fields.email({
             required: true,
@@ -104,4 +104,38 @@ const createLoginForm = ()=>{
     })
 }
 
-module.exports = { bootstrapField, createProductForm, createUserForm, createLoginForm}
+
+const createSearchForm = function (categories = [], tags = []) {
+    return forms.create({
+        'name': fields.string({
+            required: false // required is false because all search criteria are optional
+        }),
+        // using `fields.number` instead of `fields.string` means the textbox
+        // only accept numbers on the browser.
+        // the value in the form is still a string (all values sent to the server
+        // will always be a string)
+        'min_cost': fields.number({
+            required: false,
+            validators: [validators.integer()],
+            widget: widgets.number()
+        }),
+        'max_cost': fields.number({
+            required: false,
+            validators: [validators.integer()],
+            widget: widgets.number()
+        }),
+        'category_id': fields.string({
+            label: 'Category',
+            required: false,
+            widget: widgets.select(), // use the select dropdown
+            choices: categories // `categories` is one of the parameters passed to the function
+        }),
+        'tags': fields.string({
+            required: false,
+            widget: widgets.multipleSelect(),
+            choices: tags // `tags` is one of the parameters passed to the function
+        })
+    })
+}
+
+module.exports = { bootstrapField, createProductForm, createUserForm, createLoginForm, createSearchForm }

@@ -34,7 +34,7 @@ app.use(
 // Make sure to setup all sessions before your routes
 app.use(session({
   store: new FileStore(),  // use files to store sessions
-  secret:"keyboards cat",
+  secret:process.env.SESSION_SECRET_KEY,
   resave: false, // if the client access the web server and there's no change to session data, don't resave the session
   saveUninitialized: true // save a new session for each client that does not have a session 
 }))
