@@ -72,6 +72,7 @@ app.use(function(req, res, next){
    next();
 })
 
+
 // enable csurf
 // once enabled, all POST requests must have a csrf token
 app.use(csrf());
@@ -99,11 +100,26 @@ app.use(function(req,res,next){
   next();
 })
 
+// share the number of items in the shopping cart
+app.use(async function(req,res,next){
+  if (req.session.user) {
+    const cartItems = await getUserCart(req.session.user.id);
+    res.locals.cartItemCount = cartItems.toJSON().length;
+  } else {
+    res.locals.cartItemCount = 0;
+  }
+  next();
+})
+
+
 // import in the landing routes
 const landingRoutes = require('./routes/landing');
 const productRoutes = require('./routes/products');
 const userRoutes = require('./routes/users');
 const cloudinaryRoutes = require('./routes/cloudinary');
+const cartRoutes = require('./routes/cart');
+const { getUserCart } = require("./services/cart_items");
+
 async function main() {
 
   // when apply app.use to a router
@@ -113,6 +129,7 @@ async function main() {
     app.use('/products', productRoutes)
     app.use('/users', userRoutes);
     app.use('/cloudinary', cloudinaryRoutes);
+    app.use('/cart', cartRoutes);
 }
 
 main();
