@@ -13,3 +13,4 @@
 * `connect-flash`
 * `cloudinary`
 * `csurf`
+* `stripe`
