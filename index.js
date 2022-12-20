@@ -75,7 +75,17 @@ app.use(function(req, res, next){
 
 // enable csurf
 // once enabled, all POST requests must have a csrf token
-app.use(csrf());
+// was: app.use(csrf());
+
+// proxy middleware
+const csrfInstance = csrf(); // create an instance of the middleware
+app.use(function(req,res,next){
+  // check if the url we are accessing should excluded from csrf protection
+  if (req.url == "/checkout/process_payment") {
+    return next();
+  }
+  csrfInstance(req,res,next);  // implement protection for all other routes 
+})
 
 // add a custom error handler for csrf middleware.
 // (must be immediately after app.use(csrf()))
@@ -94,9 +104,14 @@ app.use(function(err,req,res,next) {
 
 // middleware to share the csrf token with all hbs files
 app.use(function(req,res,next){
-  // req.csrfToken() will return a valid CSRF token
-  // and we make it available to all hbs files via `res.locals.csrfToken`
-  res.locals.csrfToken = req.csrfToken();
+  // for routes that are excluded from csrf, `req.csrfToken` will be undefined
+  // so we need to check for the existence of the function first for the other routes
+  if (req.csrfToken) {
+      // req.csrfToken() will return a valid CSRF token
+      // and we make it available to all hbs files via `res.locals.csrfToken`
+      res.locals.csrfToken = req.csrfToken();
+    }
+
   next();
 })
 
