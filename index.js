@@ -5,6 +5,7 @@ const session  = require('express-session');
 const FileStore = require('session-file-store')(session);
 const flash = require('connect-flash');
 const csrf= require('csurf');
+const cors = require('cors');
 
 require("dotenv").config();
 
@@ -13,6 +14,8 @@ let app = express();
 
 // set the view engine
 app.set("view engine", "hbs");
+
+app.use(cors());
 
 // static folder
 app.use(express.static("public"));
@@ -81,7 +84,7 @@ app.use(function(req, res, next){
 const csrfInstance = csrf(); // create an instance of the middleware
 app.use(function(req,res,next){
   // check if the url we are accessing should excluded from csrf protection
-  if (req.url == "/checkout/process_payment") {
+  if (req.url == "/checkout/process_payment" || req.url.slice(0, 5) == '/api/') {
     return next();
   }
   csrfInstance(req,res,next);  // implement protection for all other routes 
@@ -136,6 +139,12 @@ const cartRoutes = require('./routes/cart');
 const checkoutRoutes = require('./routes/checkout')
 const { getUserCart } = require("./services/cart_items");
 
+// import in api routes
+const api = {
+  products: require('./routes/api/products'),
+  users: require('./routes/api/users')
+}
+
 async function main() {
 
   // when apply app.use to a router
@@ -147,7 +156,11 @@ async function main() {
     app.use('/cloudinary', cloudinaryRoutes);
     app.use('/cart', cartRoutes);
     app.use('/checkout', checkoutRoutes);
-}
+
+    // API routes
+    app.use('/api/products', express.json(),  api.products);
+    app.use('/api/users', express.json(), api.users);
+  }
 
 main();
 

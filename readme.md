@@ -14,3 +14,4 @@
 * `cloudinary`
 * `csurf`
 * `stripe`
+* `jsonwebtoken`

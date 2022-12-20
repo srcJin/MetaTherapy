@@ -16,7 +16,7 @@ async function getAllTags() {
 }
 
 async function getAllProducts() {
-    const products = await q.fetch({
+    const products = await Product.collection().fetch({
         withRelated:['tags', 'category'] // for each product, load in each of the tag
     });
     return products;
