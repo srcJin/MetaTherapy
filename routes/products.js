@@ -48,6 +48,15 @@ router.post('/add', async function(req,res){
             productObject.set('description', form.data.description);
             productObject.set('category_id', form.data.category_id);
             await productObject.save();
+
+            // process the tags
+            if (form.data.tags) {
+                // change it into an array
+                const tagArray = form.data.tags.split(',');
+                // add to a many to many relationship with .attach
+                await productObject.tags().attach(tagArray)
+            }
+
             res.redirect('/products');
         },
         'empty': async function(form) {
