@@ -32,9 +32,29 @@ const Category = bookshelf.model('Category',{
     products() {
         // the first parameter is the name of the Model that it has relationship with
         return this.hasMany('Product')
+    },
+    tags() {
+        // define a many to many relationship using this.belongsToMany()
+        // the first parameter of belongsToMany function is the MODEL NAME that is partaking in the relationship (不是特别懂)
+        return this.belongsToMany('Tag')
     }
 })
 
+
+// Part 14 many to many relationship
+// create a new model
+
+const Tag = bookshelf.model('Tag', {
+    tableName:'tags',
+    // the function name should be plural form of the model name, in lower case
+    products() {
+        // the first parameter of belongsToMany function is the MODEL NAME that is partaking in the relationship (不是特别懂)
+        return this.belongsToMany('Product')
+    }
+
+})
+
+
 module.exports = {
-   Product, Category
+   Product, Category, Tag
 }

@@ -18,9 +18,9 @@ exports.up = function (db) {
   return db.createTable('products_tags', {
       id: { type: 'int', primaryKey: true, autoIncrement: true },
       product_id: {
-          type: 'int',
+          type: 'int',  // important: type match
           notNull: true,
-          unsigned: true,
+          unsigned: true,  // important
           foreignKey: {
               name: 'products_product_tags_fk',
               table: 'products',
@@ -36,7 +36,7 @@ exports.up = function (db) {
           notNull: true,
           unsigned:true,
           foreignKey: {
-              name: 'products_tags_tag_fk',
+              name: 'tags_products_tag_fk',
               table: 'tags',
               rules: {
                   onDelete: 'CASCADE',

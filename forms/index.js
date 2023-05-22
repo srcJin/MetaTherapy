@@ -26,7 +26,9 @@ var bootstrapField = function (name, object) {
     return '<div class="form-group">' + label + widget + error + '</div>';
 };
 
-const createProductForm = (allCategories=[]) => {
+const createProductForm = (allCategories=[],allTags=[]) => {  
+    // if null, will default an empty array
+    
     // use forms.create to create a new form object
     return forms.create({
         'name': fields.string({
@@ -56,6 +58,12 @@ const createProductForm = (allCategories=[]) => {
             // - index 0: the ID of the choice
             // - index 1: the display value of the choice
             choices: allCategories
+        }),
+        'tags': fields.string({
+            'required': true,
+            errorAfterField: true,
+            widget: widgets.multipleSelect(),
+            choices: allTags
         })
     })
 }

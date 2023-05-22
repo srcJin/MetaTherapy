@@ -37,6 +37,6 @@ async function main() {
 
 main();
 
-app.listen(3000, () => {
-  console.log("Server has started");
+app.listen(8888, () => {
+  console.log("Server has started, listen on 8888");
 });
