@@ -3,6 +3,7 @@
         "driver":"mysql",
         "user":"foo",
         "password":"bar",
-        "database":"organic"
+        "database":"organic",
+        "host":"127.0.0.1"
     }
 }
