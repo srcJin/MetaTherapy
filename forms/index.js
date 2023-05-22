@@ -48,6 +48,7 @@ const createProductForm = (allCategories=[],allTags=[]) => {
             errorAfterField: true
         }),
         'category_id': fields.string({
+            label: "Category", // label for title  display in the form
             required: true,
             errorAfterField: true,
 
@@ -59,6 +60,7 @@ const createProductForm = (allCategories=[],allTags=[]) => {
             // - index 1: the display value of the choice
             choices: allCategories
         }),
+        // added for tags, and it is a multiple choices blank
         'tags': fields.string({
             'required': true,
             errorAfterField: true,

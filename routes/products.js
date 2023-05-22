@@ -7,7 +7,13 @@ const {Product, Category, Tag} = require('../models');
 
 router.get('/', async function(req,res){
     // get all the products
-    const products = await Product.collection().fetch();
+    const products = await Product.collection().fetch({
+        withRelated:['tags'] // m2m relationship:  for each product, load in each of the tags 
+        // withRelated: bookshelf will join the pivot table
+    });
+
+    console.log(products.toJSON())
+
     res.render('products/index', {
         'products': products.toJSON() // convert all the products to JSON
     })
@@ -19,22 +25,25 @@ router.get('/add', async function(req,res){
         return [category.get("id"), category.get('name')]
     })
 
-    const allTags = await Tag.fetchAll().map( tag => [tag.get('id'), tag.get('name')]);
-
-    const form = createProductForm(allCategories,allTags);
+    const form = createProductForm(allCategories);
     res.render('products/create', {
         'form': form.toHTML(bootstrapField)
     })
 })
 
-// process the form
+// add a new category
 router.post('/add', async function(req,res){
 
     const allCategories = await Category.fetchAll().map( (category)=>{
         return [category.get("id"), category.get('name')]
     })
 
-    const productForm = createProductForm(allCategories);
+    // get all the tags  @todo make it an function
+    const allTags = await Tag.fetchAll().map( tag => [tag.get('id'), tag.get('name')]);
+
+    // create a product form and display all Tags
+    const productForm = createProductForm(allCategories, allTags);
+
     productForm.handle(req, {
         'success': async function(form) {
             // executed when all the form fields passed
@@ -75,6 +84,8 @@ router.post('/add', async function(req,res){
     })
 })
 
+// route to display the update product form
+
 router.get("/update/:product_id", async function(req,res){
     // extract product id of the product that we want to updage
     const productId = req.params.product_id;
@@ -96,7 +107,11 @@ router.get("/update/:product_id", async function(req,res){
         return [category.get("id"), category.get('name')]
     })
 
-    const productForm = createProductForm(allCategories);
+    // get all the tags  @todo make it an function
+    const allTags = await Tag.fetchAll().map( tag => [tag.get('id'), tag.get('name')]);
+
+    // create the product form
+    const productForm = createProductForm(allCategories,allTags);
     // product.get allows us to retrieve one column's value
     productForm.fields.name.value = product.get('name');
     productForm.fields.cost.value = product.get('cost');
