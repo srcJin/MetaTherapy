@@ -1,3 +1,5 @@
+const { application } = require("express");
+
 const checkIfAuthenticated = function(req,res, next){
     // we can always access the session with `req.session`
     if (req.session.user) {
@@ -9,3 +11,5 @@ const checkIfAuthenticated = function(req,res, next){
 }
  
 module.exports = {checkIfAuthenticated};
+
+

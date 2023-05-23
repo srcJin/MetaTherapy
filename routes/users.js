@@ -3,9 +3,18 @@ const router = express.Router();
 
 // import in the User model
 const { User } = require('../models');
+const crypto = require('crypto');  // you don't need yarn to add crypto
 
 const { createUserForm, createLoginForm, bootstrapField } = require('../forms');
 const { checkIfAuthenticated } = require("../middlewares");
+
+function getHashedPassword(password) {
+    const sha256 = crypto.createHash("sha256")
+    // we we hash a string , the result is very long, so digest, base64 = hexdicimal(0-F)
+    const hash = sha256.update(password).digest('base64'); 
+    return hash;
+}
+
 
 router.get('/signup', (req,res)=>{
     // display the registration form
@@ -34,7 +43,10 @@ router.post('/signup', (req, res) => {
             // method 1: set one by one
             user.set('username', form.data.username)
             user.set('email', form.data.email)
-            user.set('password', form.data.password)
+            // user.set('password', form.data.password)
+
+            // hash the password
+            user.set('password', getHashedPassword(form.data.password))
 
             // method 2: decompose object
             // const {confirm_password, ...userData} = form.data;
@@ -78,19 +90,22 @@ router.post('/login', (req,res)=>{
             // ...find the user by email and password
             let user = await User.where({
                 'username': form.data.username,
-                'password': form.data.password
+                'password': getHashedPassword(form.data.password) // hash the password when login
             }).fetch({
                 require:false}
             );
 
             if (!user) {
+                console.log("user error")
                 // if the user it doesn't exist
                 req.flash("error_messages", "Sorry, the authentication details you provided does not work.")
                 res.redirect('/users/login');
             } else {
                 // if the user exist
                 // check if the password matches
-                if (user.get('password') === form.data.password) {
+
+
+                if (user.get('password') === getHashedPassword(form.data.password)) {
                     // add to the session that login succeed
                     // store the user details
                     req.session.user = {
@@ -120,8 +135,13 @@ router.post('/login', (req,res)=>{
     })
 })
 
-// show the info of the current loggin user
-// before the req, res executed, middleware checkIfAuthenticated runs first
+router.get('/logout', checkIfAuthenticated, (req,res) => {
+    req.session.user = null;
+    req.flash('success_messages', "You have been logged out")
+    res.redirect('/users/login');
+})
+
+
 router.get('/profile',checkIfAuthenticated,  (req, res) => {
     const user = req.session.user;
     res.render('users/profile', {

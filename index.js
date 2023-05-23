@@ -78,6 +78,13 @@ async function main() {
 
 }
 
+// share the current logged in user with all hbs file
+app.use(function(req,res, next){
+  res.locals.user = req.session.user;
+  next()
+})
+
+
 main();
 
 app.listen(8888, () => {
