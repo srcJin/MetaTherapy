@@ -64,6 +64,8 @@ app.use(function (req, res, next) {
 // import in the landing routes
 const landingRoutes = require('./routes/landing')
 const productRoutes = require('./routes/products');
+const userRoutes = require('./routes/users');
+
 const baseModule = require("hbs");
 async function main() {
 
@@ -72,6 +74,8 @@ async function main() {
   // the second parameter is the router itself
     app.use('/', landingRoutes);
     app.use('/products', productRoutes)
+    app.use('/users', userRoutes)
+
 }
 
 main();
