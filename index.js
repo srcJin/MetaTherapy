@@ -6,7 +6,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
 const baseModule = require("hbs");
-
+const csrf = require('csurf')
 require("dotenv").config();
 
 // create an instance of express app
@@ -60,6 +60,30 @@ app.use(function (req, res, next) {
     next();
 });
 
+// 15 dec 
+// enable csurf
+// once enabled, all POST requests must have a csrf token
+
+app.use(csrf())
+// add a custom error handler for csrf middleware
+// must be immediately after app.use(csrf())
+app.use(function (err, req, res, next) {
+  if (err && err.code == "EBADCSRFTOKEN") {
+      req.flash('error_messages', 'The form has expired. Please try again');
+      res.redirect('back');
+  } else {
+      next()
+  }
+});
+
+
+// create a middleware to share the csrf token with all hbs files
+app.use(function(req,res,next){
+  res.locals.csrfToken = req.csrfToken();
+  next();
+})
+// then go to hbs files to put csrf token in the form using hidden input
+/*{ <input type="hidden" name="_csrf" value="{{csrfToken}}"/> }*/
 
 // import in the landing routes
 const landingRoutes = require('./routes/landing')
