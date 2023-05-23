@@ -10,6 +10,7 @@ router.get('/', async function(req,res){
     const products = await Product.collection().fetch({
         withRelated:['tags'] // m2m relationship:  for each product, load in each of the tags 
         // withRelated: bookshelf will join the pivot table
+        // paul: use withRelated to load in associated relationship
     });
 
     console.log(products.toJSON())
@@ -95,7 +96,8 @@ router.get("/update/:product_id", async function(req,res){
     const product = await Product.where({
         'id': productId
     }).fetch({
-        require: true
+        require: true,
+        withRelated:["tags"] // use withRelated to load in associated relationship
     })
     // .where basically add in the "WHERE ...."
     // .fetch executes the query
@@ -118,6 +120,16 @@ router.get("/update/:product_id", async function(req,res){
     productForm.fields.description.value = product.get('description');
     productForm.fields.category_id.value = product.get('category_id')
 
+
+    // 14th dec, to pre-select the tags in the update page
+    // retrieve all the IDs of the related tags in an array
+    // for example. if product with tag id 2,3,5, we need the array [2,3,5]
+    let selectedTags = await product.related('tags').pluck('id')
+    //`pluck` means to retrieve one key/value from  the object and put the value into a array
+
+    // then set the existing tags for the edited product
+    productForm.fields.tags.value = selectedTags;
+
     res.render('products/update',{
         'form': productForm.toHTML(bootstrapField)
     });
@@ -128,7 +140,8 @@ router.post('/update/:product_id', async function(req,res){
     const product = await Product.where({
         'id': productId
     }).fetch({
-        require: true
+        require: true,
+        withRelated:['tags']
     })
 
     const productForm = createProductForm();
@@ -144,8 +157,21 @@ router.post('/update/:product_id', async function(req,res){
             // product.set('description', form.data.description);
             // if the parameter to product.set is an object
             // Bookshelf ORM will try to assign each key as a column
-            product.set(form.data);
+
+            // first extract the data without tag
+            const {tags, ...productData} = form.data;
+            product.set(productData);
             product.save(); // make the change permanent
+
+            // then deal with the tags
+            // remove all existing tags
+            let existingTagIDs = await product.related('tags').pluck('id');
+            // remove all the existing tags
+            await product.tags().detach(existingTagIDs);
+
+            // add back all the tags selected in the form
+            await product.tags().attach(tags.split('.'));
+
             res.redirect('/products');
         },
         'empty': async function(form) {

@@ -1,6 +1,12 @@
 const express = require("express");
 const hbs = require("hbs");
 const wax = require("wax-on");
+// 14th dec, session
+const session = require('express-session');
+const flash = require('connect-flash');
+const FileStore = require('session-file-store')(session);
+
+
 require("dotenv").config();
 
 // create an instance of express app
@@ -22,6 +28,17 @@ app.use(
     extended: false
   })
 );
+
+
+// set up sessions before you import your routes
+app.use(session({
+  store: new FileStore(), // use files to store sessions
+  secret: 'keyboard cat', // encrypt the session id
+  resave: false, // if the client access the web server, and no change to session, don't resave the session
+  saveUninitialized: true // save a new session for each client that does not have a session
+}))
+
+
 
 // import in the landing routes
 const landingRoutes = require('./routes/landing')
