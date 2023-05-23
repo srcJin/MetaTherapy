@@ -85,7 +85,7 @@
                 >Disabled</a>
               </li>
             </ul>
-            {{!-- <form class="d-flex">
+            {{! <form class="d-flex">
               <input
                 class="form-control me-2"
                 type="search"
@@ -96,17 +96,24 @@
                 class="btn btn-outline-success"
                 type="submit"
               >Search</button>
-            </form> --}}
+            </form> }}
 
-          <div>
-            {{#if user}}
-                Welcome back, {{user.username}} <a href="/users/logout" class="btn btn-primary btn-sm">Logout</a>
-            {{else}}
-                Hello! Please <a href="/users/login" class="btn btn-primary btn-sm">Login</a> or <a href="/users/signup" class="btn btn-primary btn-sm">Sign Up</a>
-            {{/if}}
+            <div>
+              {{#if user}}
+                Welcome back,
+                {{user.username}}
+                <a
+                  href="/users/logout"
+                  class="btn btn-primary btn-sm"
+                >Logout</a>
+              {{else}}
+                Hello! Please
+                <a href="/users/login" class="btn btn-primary btn-sm">Login</a>
+                or
+                <a href="/users/signup" class="btn btn-primary btn-sm">Sign Up</a>
+              {{/if}}
 
-
-          </div>
+            </div>
 
           </div>
         </div>
@@ -114,5 +121,9 @@
 
       {{#block "content"}}{{/block}}
     </div>
+
+   {{!-- javascript block --}}
+
+    {{#block "js"}}{{/block}}
   </body>
 </html>

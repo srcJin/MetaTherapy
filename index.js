@@ -5,7 +5,7 @@ const wax = require("wax-on");
 const session = require('express-session');
 const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
-
+const baseModule = require("hbs");
 
 require("dotenv").config();
 
@@ -65,8 +65,8 @@ app.use(function (req, res, next) {
 const landingRoutes = require('./routes/landing')
 const productRoutes = require('./routes/products');
 const userRoutes = require('./routes/users');
+const cloudinaryRoutes = require('./routes/cloudinary')
 
-const baseModule = require("hbs");
 async function main() {
 
   // when apply app.use to a router
@@ -75,7 +75,7 @@ async function main() {
     app.use('/', landingRoutes);
     app.use('/products', productRoutes)
     app.use('/users', userRoutes)
-
+    app.use('/cloudinary', cloudinaryRoutes)
 }
 
 // share the current logged in user with all hbs file

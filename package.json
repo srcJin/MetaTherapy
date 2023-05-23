@@ -19,6 +19,7 @@
   "homepage": "https://github.com/kunxin-chor/dwad20-framework#readme",
   "dependencies": {
     "bookshelf": "^1.2.0",
+    "cloudinary": "^1.37.0",
     "connect-flash": "^0.1.1",
     "db-migrate": "^0.11.13",
     "db-migrate-mysql": "^2.2.0",
