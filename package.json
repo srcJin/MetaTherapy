@@ -4,7 +4,8 @@
   "description": "To start mysql, in the terminal, type in `mysql -u root`",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --ignore sessions"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,7 @@
     "db-migrate-mysql": "^2.2.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "express-sessions": "^1.0.6",
+    "express-session": "^1.17.3",
     "forms": "^1.3.2",
     "hbs": "^4.2.0",
     "knex": "^2.4.2",

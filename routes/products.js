@@ -13,7 +13,7 @@ router.get('/', async function(req,res){
         // paul: use withRelated to load in associated relationship
     });
 
-    console.log(products.toJSON())
+    // console.log(products.toJSON())
 
     res.render('products/index', {
         'products': products.toJSON() // convert all the products to JSON
@@ -66,6 +66,10 @@ router.post('/add', async function(req,res){
                 // add to a many to many relationship with .attach
                 await productObject.tags().attach(tagArray)
             }
+
+            // dec 14 flash middleware tutorial:
+            // you can only use a flash message after a redirect @note
+            req.flash('success_messages',`New Product ${productObject.get('name')} has been created`)
 
             res.redirect('/products');
         },
@@ -171,6 +175,13 @@ router.post('/update/:product_id', async function(req,res){
 
             // add back all the tags selected in the form
             await product.tags().attach(tags.split('.'));
+
+            // dec 14 flash middleware tutorial:
+            // you can only use a flash message after a redirect @note
+            // parameter 1 is the category of the flash message
+            // parameter 2 is the message itself
+            // the flash message is saved in the session
+            req.flash('success_messages',`Product ${product.get('name')} has been updated`)
 
             res.redirect('/products');
         },

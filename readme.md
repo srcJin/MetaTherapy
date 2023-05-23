@@ -9,6 +9,6 @@
 * `bookshelf`
 * `forms`
 * `forms`
-* `express-sessions`
+* `express-session`
 * `session-file-store`
 * `connect-flash`  // connect a flash message

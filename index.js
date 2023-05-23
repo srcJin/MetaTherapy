@@ -22,12 +22,16 @@ app.use(express.static("public"));
 wax.on(hbs.handlebars);
 wax.setLayoutPath("./views/layouts");
 
+// Use middleware
+
 // enable forms
 app.use(
   express.urlencoded({
     extended: false
   })
 );
+
+
 
 
 // set up sessions before you import your routes
@@ -39,10 +43,28 @@ app.use(session({
 }))
 
 
+app.use(flash())
+
+// Register Flash middleware
+// Flash related to base.hbs
+
+// note: when req.flash receive a message (success/error), 
+// it will remove all the previous message stored in the session file
+
+app.use(function (req, res, next) {
+    // res.locals is an object that store all the placeholders for the hbs file
+    res.locals.success_messages = req.flash("success_messages");
+    res.locals.error_messages = req.flash("error_messages");
+    // IMPORTANT!!
+    // must always call next() or res.send/render in a middleware 
+    next();
+});
+
 
 // import in the landing routes
 const landingRoutes = require('./routes/landing')
 const productRoutes = require('./routes/products');
+const baseModule = require("hbs");
 async function main() {
 
   // when apply app.use to a router
