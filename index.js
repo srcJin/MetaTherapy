@@ -160,6 +160,6 @@ app.use(async function(req,res, next){
 
 main();
 
-app.listen(3333, () => {
-  console.log("Server has started, listen on 3333");
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Server has started, listening on 3000");
 });
