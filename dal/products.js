@@ -42,4 +42,5 @@ async function addProduct(productDetails) {
     return productObject;
 }
 
+
 module.exports = { getAllCategories, getAllTags, getAllProducts, addProduct}

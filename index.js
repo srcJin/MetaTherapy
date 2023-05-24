@@ -7,6 +7,7 @@ const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
 const baseModule = require("hbs");
 const csrf = require('csurf')
+const jwt = require('jsonwebtoken');
 require("dotenv").config();
 
 // create an instance of express app 
@@ -70,7 +71,8 @@ const csrfInstance = csrf();
 app.use(function(req,res,next){
   // check if the url we are accessing should excluded from csrf protection
   // here we are not passing csrf to req
-  if (req.url == "./checkout/process_payment") {
+  // the \\ is to exclude api call to make it restful
+  if (req.url == "./checkout/process_payment" || req.url.slice(0,5) == '/api/') {
     return next();
   }
   csrfInstance(req,res,next); // implement protection for all other routes
@@ -113,6 +115,11 @@ const cloudinaryRoutes = require('./routes/cloudinary')
 const cartRoutes = require('./routes/cart')
 const { getUserCart } = require("./services/cart_items");
 const checkoutRoutes = require('./routes/checkout')
+
+// register restful api
+const api = {products: require('./api/products'),
+             users:require('./api/users')}
+
 async function main() {
 
   // when apply app.use to a router
@@ -124,6 +131,11 @@ async function main() {
     app.use('/cloudinary', cloudinaryRoutes)
     app.use('/cart', cartRoutes)
     app.use('/checkout', checkoutRoutes)
+
+    // use restful api
+    // add expres.json. specify all the routes will be using express.json middleware
+    app.use('/api/products',express.json(), api.products);
+    app.use('/api/users',express.json(), api.users);
 
 }
 
