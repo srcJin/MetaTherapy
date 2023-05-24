@@ -37,7 +37,7 @@ app.use(
 // set up sessions before you import your routes
 app.use(session({
   store: new FileStore(), // use files to store sessions
-  secret: 'keyboard cat', // encrypt the session id
+  secret: process.env.SESSION_SECRET_KEY, // encrypt the session id
   resave: false, // if the client access the web server, and no change to session, don't resave the session
   saveUninitialized: true // save a new session for each client that does not have a session
 }))

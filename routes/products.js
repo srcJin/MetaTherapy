@@ -1,31 +1,112 @@
 // require in express
 const express = require("express");
-const { createProductForm, bootstrapField } = require("../forms");
+// import in the DAL
+const { getAllCategories, getAllTags, addProduct } = require('../dal/products');
+const { createProductForm, createSearchForm, bootstrapField } = require("../forms");
 const router = express.Router();
+
 
 const { Product, Category, Tag } = require("../models");
 
 router.get("/", async function (req, res) {
-  // get all the products
-  const products = await Product.collection().fetch({
-    withRelated: ["tags"], // m2m relationship:  for each product, load in each of the tags
-    // withRelated: bookshelf will join the pivot table
-    // paul: use withRelated to load in associated relationship
-  });
 
-  // console.log(products.toJSON())
 
-  res.render("products/index", {
-    products: products.toJSON(), // convert all the products to JSON
-  });
-});
+    // get all the categories from the table
+    // and return them as an array of arrays
+    // each array represents one category: [<id>, <name of category>]
+
+    // this part has been moved to DAL Layer
+    const allCategories = await getAllCategories();
+    // unshift add the content to the first of the list
+    allCategories.unshift(["", 'Any category']);
+
+    const allTags = await getAllTags();
+
+    // 16 dec. search
+    const searchForm = createSearchForm(allCategories, allTags);
+
+    // always true query
+    // a query is not executeed at the database until you call it with fetch()
+    // here is using knex
+    const q = Product.collection();  // same as "SELECT * FROM products WHERE 1"
+
+    searchForm.handle(req, {
+        'success': async function(form) {
+
+            if (form.data.name) {
+                q.where('name', 'like', '%' + form.data.name + "%");
+            }
+
+            if (form.data.min_cost) {
+                q.where('cost', '>=', form.data.min_cost);
+            }
+
+            if (form.data.max_cost) {
+                q.where('cost', '<=', form.data.max_cost);
+            }
+
+            if (form.data.category_id) {
+                q.where('category_id', '=', form.data.category_id);
+            }
+
+            // search m2m relationship is different
+            // need to use knex join
+            if (form.data.tags) {
+                // ...JOIN products_tags ON products.id = products_tags.product_id
+                q.query('join', 'products_tags', 'products.id', 'product_id')
+                  .where('tag_id', 'in', form.data.tags.split(','))
+            }
+
+            const products = await q.fetch({
+                withRelated:['tags', 'category'] // for each product, load in each of the tag
+            });
+            res.render('products/index', {
+                'products': products.toJSON(), // convert all the products to JSON
+                'searchForm': form.toHTML(bootstrapField)
+            })
+
+        },
+
+
+        'empty': async function(form ) {
+             // if the search form is empty (i.e, not filled in at all),
+             // just get all the products
+
+            // m2m relationship:  for each product, load in each of the tags
+                // withRelated: bookshelf will join the pivot table
+                // paul: use withRelated to load in associated relationship
+            const products = await q.fetch({
+                withRelated:['tags'] // for each product, load in each of the tag
+            });
+
+
+
+            res.render('products/index', {
+                'products': products.toJSON(), // convert all the products to JSON
+                'searchForm': form.toHTML(bootstrapField)
+            })
+        },
+        'error': function() {
+
+        }
+    })
+
+
+    // res.send("search somehow has error")
+})
+
+
 
 router.get("/add", async function (req, res) {
-  const allCategories = await Category.fetchAll().map((category) => {
-    return [category.get("id"), category.get("name")];
-  });
+  // this part has been moved to DAL Layer
+  const allCategories = await getAllCategories()
+  // unshift add the content to the first of the list
+  allCategories.unshift([0, 'Select one category']);
 
-  const form = createProductForm(allCategories);
+  const allTags = await getAllTags();
+
+
+  const form = createProductForm(allCategories,allTags);
   res.render("products/create", {
     form: form.toHTML(bootstrapField),
     // here to pass the cloudinary info to the hbs page
@@ -37,15 +118,11 @@ router.get("/add", async function (req, res) {
 
 // add a new category
 router.post("/add", async function (req, res) {
-  const allCategories = await Category.fetchAll().map((category) => {
-    return [category.get("id"), category.get("name")];
-  });
+  const allCategories = await getAllCategories();
+
 
   // get all the tags  @todo make it an function
-  const allTags = await Tag.fetchAll().map((tag) => [
-    tag.get("id"),
-    tag.get("name"),
-  ]);
+  const allTags = await getAllTags();
 
   // create a product form and display all Tags
   const productForm = createProductForm(allCategories, allTags);
@@ -57,14 +134,18 @@ router.post("/add", async function (req, res) {
       // the first argument will be whatever the user type into the form
 
       // an instance (or an object) created from a model represents one row in the table
-      const productObject = new Product();
-      productObject.set("name", form.data.name);
-      productObject.set("cost", form.data.cost);
-      productObject.set("description", form.data.description);
-      productObject.set("category_id", form.data.category_id);
-      await productObject.save();
+      // moved to DAL Layer
+      // const productObject = new Product();
+      // productObject.set("name", form.data.name);
+      // productObject.set("cost", form.data.cost);
+      // productObject.set("description", form.data.description);
+      // productObject.set("category_id", form.data.category_id);
+      // await productObject.save();
+
+      const productObject = await addProduct(form.data);
 
       // process the tags
+      // @todo don't know if correct
       if (form.data.tags) {
         // change it into an array
         const tagArray = form.data.tags.split(",");
@@ -124,16 +205,14 @@ router.get("/update/:product_id", async function (req, res) {
   // the `require: true` means that if no results are retrieved, Bookshelf
   // will cause an exception
 
+  // new method: get product by ID with DAL layer
+  // const product = await getProductByID(productId);
+
   // get all the categories
-  const allCategories = await Category.fetchAll().map((category) => {
-    return [category.get("id"), category.get("name")];
-  });
+  const allCategories = await getAllCategories()
 
   // get all the tags  @todo make it an function
-  const allTags = await Tag.fetchAll().map((tag) => [
-    tag.get("id"),
-    tag.get("name"),
-  ]);
+  const allTags = await getAllTags()
 
   // create the product form
   const productForm = createProductForm(allCategories, allTags);
