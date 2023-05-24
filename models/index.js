@@ -64,6 +64,7 @@ const User = bookshelf.model('User',{
     }
 })
 
+// the name related dal/cart_items
 const CartItem = bookshelf.model('CartItem', {
     tableName: 'cart_items',
     product() {
