@@ -1,28 +1,38 @@
 const express = require('express');
 const router = express.Router();
 
-// cloudinary object allows us to send requests to the
-// cloudinary server
-const cloudinary = require('cloudinary');
+// cloudinary object allows us to send requests to the cloudinary server
+const cloudinary = require('cloudinary')
+
 cloudinary.config({
-    "api_key": process.env.CLOUDINARY_API_KEY,
-    "api_secret": process.env.CLOUDINARY_API_SECRET
+    'api_key': process.env.CLOUDINARY_API_KEY,
+    'api_secret': process.env.CLOUDINARY_SECRET
 })
 
-// when the cloudinary widget wants to uplaod a new file
-// they will send the info about the upload to this route
-router.get('/sign', async function(req,res){
-    // req.query.params_to_sign will be a STRING
-    // the STRING will look like JSON
-    // so to convert to JSON object, we use JSON.parse
-    const paramsToSign = JSON.parse(req.query.params_to_sign);
+// paul: when the cloudinary widget wants to upload a new file
+// it will send the info about the upload to this route
 
-    // retrieve our API secret
-    const apiSecret = process.env.CLOUDINARY_API_SECRET;
+// SIGNED TRANSFER
+// 1. when uploading to cloudinary by browser
+// 2. the cloudinary widget pass the file name and other info to the express
+// 3. then express will notify cloudinary server that we are doing an upload by providing our API SECRET and API KEY
+// 4. the cloudinary server give the permission, aka signature to express
+// 5. express send the signature back to the cloudinary widget
+// 6. the cloudinary widget send the file + signature to cloudinary
 
-    // get the signature from the cloudinary server
-    const signature = cloudinary.utils.api_sign_request(paramsToSign, apiSecret);
+
+router.get('/sign', async (req,res)=>{
+
+    // retrieve the parameters we need to send to cloudinary
+    const params_to_sign = JSON.parse(req.query.params_to_sign);
+
+    // retrieve our cloudinary api secret from the environment
+    const apiSecret = process.env.CLOUDINARY_API_SECRET
+
+    // get the signature (aka CSRF)
+    const signature = cloudinary.utils.api_sign_request(params_to_sign, apiSecret);
+    
     res.send(signature);
 })
 
-module.exports= router;
+module.exports = router;

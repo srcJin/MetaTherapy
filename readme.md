@@ -8,10 +8,7 @@
 * `knex`
 * `bookshelf`
 * `forms`
+* `forms`
 * `express-session`
 * `session-file-store`
-* `connect-flash`
-* `cloudinary`
-* `csurf`
-* `stripe`
-* `jsonwebtoken`
+* `connect-flash`  // connect a flash message

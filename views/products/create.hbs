@@ -3,15 +3,15 @@
 {{#block "content"}}
 <h1>Create a New Product</h1>
 <form method="POST">
-    {{{form}}}
     <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
+    {{{form}}}
     <div>
-        <a href="#" class="btn btn-primary" id="upload_widget">Upload</a>
+        <a href="#" class="btn btn-primary mt-4" id="upload_widget">Upload</a>
         <div>
             <img src="" style="display:none" id="uploaded_image"/>
         </div>
     </div>
-    <input type="submit" class="btn btn-primary"/>
+    <input type="submit" class="btn btn-primary mt-4"/>
 </form>
 
 {{/block}}

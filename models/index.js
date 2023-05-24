@@ -16,10 +16,9 @@ const Product = bookshelf.model('Product',{
         // has relationship with
         return this.belongsTo('Category');
     },
-    tags(){
-        // this.belongsToMany allows us to define a many to many relationship
-        // the first parameter of the belongsToMany function is the MODEL NAME
-        // that is partaking in the relatonship
+    tags() {
+        // define a many to many relationship using this.belongsToMany()
+        // the first parameter of belongsToMany function is the MODEL NAME that is partaking in the relationship (不是特别懂)
         return this.belongsToMany('Tag')
     }
 
@@ -39,18 +38,24 @@ const Category = bookshelf.model('Category',{
         // the first parameter is the name of the Model that it has relationship with
         return this.hasMany('Product')
     },
-  
+
 })
+
+
+// Part 14 many to many relationship
+// create a new model
 
 const Tag = bookshelf.model('Tag', {
     tableName:'tags',
-    // the function name should be plural form of the Model name, in lower case
+    // the function name should be plural form of the model name, in lower case
     products() {
-        // the first parameter of the belongsToMany function is the MODEL NAME
-        // that is partaking in the relatonship
+        // the first parameter of belongsToMany function is the MODEL NAME that is partaking in the relationship (不是特别懂)
         return this.belongsToMany('Product')
     }
+
 })
+
+// create user model
 
 const User = bookshelf.model('User',{
     tableName: 'users',
@@ -59,17 +64,13 @@ const User = bookshelf.model('User',{
     }
 })
 
-const CartItem = bookshelf.model('CartItem',{
-    'tableName':'cart_items',
+// the name related dal/cart_items
+const CartItem = bookshelf.model('CartItem', {
+    tableName: 'cart_items',
     product() {
-        return this.belongsTo("Product");
+        return this.belongsTo('Product')
     }
 })
 
-const BlacklistedToken = bookshelf.model('BlacklistedToken',{
-    'tableName':'blacklisted_tokens'
-})
+module.exports = {Product, Category, Tag, User, CartItem};
 
-module.exports = {
-   Product, Category, Tag, User, CartItem, BlacklistedToken
-}

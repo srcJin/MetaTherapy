@@ -3,9 +3,11 @@
 {{#block "content"}}
 <h1>Delete Product</h1> 
 <form method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
+
     <div class="alert alert-danger">Are you sure you want to delete {{product.name}}?</div>
-    <input type="submit" class="btn btn-danger" value="Delete"/>
-    <a href="/products" class="btn btn-success">Cancel</a>
+    <input type="submit" class="btn btn-danger mt-3" value="Delete"/>
+    <a href="/products" class="btn btn-success mt-3">Cancel</a>
 </form>
 {{/block}}
 

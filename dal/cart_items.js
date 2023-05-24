@@ -5,11 +5,13 @@ async function getCart(userId) {
         'user_id': userId
     }).fetch({
         require: false,
-        withRelated:['product', 'product.category', 'product.tags']
+        withRelated:['product','product.category', 'product.tags']
     })
 }
 
 // add a new product to a shopping cart
+// should not be connected to express
+
 async function createCartItem(userId, productId, quantity) {
     // one instance of a model => one row inside the table
     const cartItem = new CartItem({
@@ -22,10 +24,11 @@ async function createCartItem(userId, productId, quantity) {
     return cartItem;
 }
 
+
 // given a userId and productId, get the
 // cart item
 async function getByProductAndUser(userId, productId) {
-    return await CartItem.where({
+    return await CartItem.where({ //when userId and productId matches current, fetch
         'user_id': userId,
         'product_id': productId
     }).fetch({
@@ -34,10 +37,11 @@ async function getByProductAndUser(userId, productId) {
 
 }
 
+
 async function updateQuantity(userId, productId, newQuantity) {
     const cartItem = await getByProductAndUser(userId, productId);
     if (cartItem) {
-        console.log("newQuantity =", newQuantity);
+        // console.log("newQuantity =", newQuantity);
         cartItem.set('quantity', newQuantity);
         await cartItem.save();
         return cartItem;
@@ -45,6 +49,8 @@ async function updateQuantity(userId, productId, newQuantity) {
         return false;
     }
 }
+
+
 
 async function removeFromCart(userId, productId) {
     const cartItem = await getByProductAndUser(userId, productId);
@@ -55,10 +61,6 @@ async function removeFromCart(userId, productId) {
     return false;
 }
 
+module.exports = { createCartItem, getByProductAndUser, updateQuantity, getCart, removeFromCart }
 
-module.exports = { createCartItem, 
-    getByProductAndUser, 
-    updateQuantity, 
-    getCart,
-    removeFromCart
-};
+

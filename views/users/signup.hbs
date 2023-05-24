@@ -1,11 +1,12 @@
-{{#extends "base"}}
+{{#extends 'base'}}
 
-{{#block "content"}}
-<h1>Sign Up</h1>
+{{#block 'content'}}
+<h1>Register</h1>
 <form method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
     {{{form}}}
-    <input type="submit" class="btn btn-primary mt-3" value="Sign up"/>
+    <input type="submit" value="Register" class="btn btn-primary mt-3"/>
+    {{/block}}
 </form>
-{{/block}}
 
 {{/extends}}

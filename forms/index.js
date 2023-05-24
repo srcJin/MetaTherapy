@@ -26,9 +26,9 @@ var bootstrapField = function (name, object) {
     return '<div class="form-group">' + label + widget + error + '</div>';
 };
 
-// if allCategories is null, it will be an empty array
-// if allTags is null, it will be an empty array
-const createProductForm = (allCategories = [], allTags = []) => {
+const createProductForm = (allCategories=[],allTags=[]) => {  
+    // if null, will default an empty array
+    
     // use forms.create to create a new form object
     return forms.create({
         'name': fields.string({
@@ -41,14 +41,14 @@ const createProductForm = (allCategories = [], allTags = []) => {
             // indicate the field must be an integeer
             // IMPORTANT: note the function call
             // in the array
-            validators: [validators.integer()]
+            validators:[validators.integer()]
         }),
         'description': fields.string({
             required: true,
             errorAfterField: true
         }),
         'category_id': fields.string({
-            label: "Category",
+            label: "Category", // label for title  display in the form
             required: true,
             errorAfterField: true,
 
@@ -60,13 +60,15 @@ const createProductForm = (allCategories = [], allTags = []) => {
             // - index 1: the display value of the choice
             choices: allCategories
         }),
+        // added for tags, and it is a multiple choices blank
         'tags': fields.string({
             'required': true,
             errorAfterField: true,
             widget: widgets.multipleSelect(),
             choices: allTags
         }),
-        'image_url': fields.string({
+        // lab 9 dec 15 cloudinary
+        'image_url' : fields.string({
             widget: widgets.hidden() // this creates a hidden form field
         })
     })
@@ -76,17 +78,32 @@ const createUserForm = () => {
     return forms.create({
         'username': fields.string({
             required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            }
         }),
-        'email': fields.email({
+        'email': fields.string({
             required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            }
         }),
         'password': fields.password({
-            required: true
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            },
         }),
         'confirm_password': fields.password({
             required: true,
-            // the value entered for confirm_password field must match that
-            // of the password field
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            },
+            // this validator validates the confirm password match password blank
             validators: [validators.matchField('password')]
         })
     })
@@ -95,25 +112,41 @@ const createUserForm = () => {
 
 const createLoginForm = () => {
     return forms.create({
-        'email': fields.email({
+        'username': fields.string({
             required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            }
         }),
+        // 'email': fields.string({
+        //     required: true,
+        //     errorAfterField: true,
+        //     cssClasses: {
+        //         label: ['form-label']
+        //     }
+        // }),
         'password': fields.password({
-            required: true
-        })
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            },
+        }),
     })
 }
 
-
+// create a search form
+// we set require to false for all the fields
 const createSearchForm = function (categories = [], tags = []) {
     return forms.create({
         'name': fields.string({
             required: false // required is false because all search criteria are optional
         }),
-        // using `fields.number` instead of `fields.string` means the textbox
-        // only accept numbers on the browser.
-        // the value in the form is still a string (all values sent to the server
-        // will always be a string)
+
+        // using `fields.number` instead of `fields.string` means the textbox only accept numbers on the browser.
+        // the value in the form is still a string (all values sent to the server will always be a string)
+
         'min_cost': fields.number({
             required: false,
             validators: [validators.integer()],
@@ -138,4 +171,4 @@ const createSearchForm = function (categories = [], tags = []) {
     })
 }
 
-module.exports = { bootstrapField, createProductForm, createUserForm, createLoginForm, createSearchForm }
+module.exports = { bootstrapField, createProductForm, createUserForm, createLoginForm, createSearchForm}

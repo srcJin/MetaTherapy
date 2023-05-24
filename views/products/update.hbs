@@ -3,16 +3,20 @@
 {{#block "content"}}
 <h1>Update Product</h1>
 <form method="POST">
+    {{!-- add csrf protection before form processing --}}
+    <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
     {{{form}}}
-    <div>
-        <a href="#" id="upload_widget" class="btn btn-primary">Upload Image</a>
-    </div>
-    <div>
-        {{#if product.image_url}} 
-            <img src="{{product.image_url}}" id="uploaded_image"/>
-        {{else}}
-            <img src="" id="uploaded_image" style="display:none"/>
-        {{/if}}
+        <div>
+            {{#if product.image_url}}
+                <img src="{{product.image_url}}"/> 
+            {{else}}
+                <img src="" id="uploaded_image" style="display:none" />
+            {{/if}}
+
+        <a href="#" class="btn btn-primary mt-4" id="upload_widget">Upload</a>
+        <div>
+            <img src="" style="display:none" id="uploaded_image"/>
+        </div>
     </div>
     <input type="submit" class="btn btn-primary mt-3"/>
 
@@ -20,7 +24,6 @@
 
 
 {{/block}}
-
 
 {{#block "js"}}
 

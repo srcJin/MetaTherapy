@@ -3,11 +3,11 @@
 {{#block "content"}}
 <h1>All Products</h1>
 
+
 <form method="GET">
     {{{searchForm}}}
-    <input type="submit" value="Search" class="btn btn-primary mt-3"/>
+     <input type="submit" value="Search" class="btn btn-primary mt-3">
 </form>
-
 
 <table class="table">
     <thead>
@@ -17,6 +17,7 @@
         <th>Cost</th>
         <th>Tags</th>
         <th>Description</th>
+        {{!-- display the image --}}
         <th>Image</th>
         <th></th>
     </thead>
@@ -26,20 +27,23 @@
             <td>{{this.id}}</td>
             <td>{{this.name}}</td>
             <td>{{this.category.name}}</td>
+
             <td>{{this.cost}}</td>
+            {{!-- for each tag, display the tag name --}}
             <td>
                 {{#each this.tags}}
-                <span class="badge bg-primary">{{this.name}}</span>
+                {{!-- this in this.name refer to this.tags --}}
+                <span class="badge bg-primary">{{this.name}}</span>  
                 {{/each}}
             </td>
             <td>{{this.description}}</td>
             <td>
                 {{#if this.image_url}}
-                    <img src="{{this.image_url}}"/>
+                <img src="{{this.image_url}}" />
                 {{/if}}
             </td>
             <td style="width: 200px">
-                <a href="/cart/add/{{this.id}}" class="btn btn-success btn-sm">Add to Cart</a>
+                <a href="/cart/add/{{this.id}}" class="btn btn-success btn-sm">AddCart</a>
                 <a href="/products/update/{{this.id}}" class="btn btn-primary btn-sm">Edit</a>
                 <a href="/products/delete/{{this.id}}" class="btn btn-danger btn-sm">Delete</a>
             </td>

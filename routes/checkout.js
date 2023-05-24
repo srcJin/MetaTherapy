@@ -1,24 +1,30 @@
+// https://dashboard.stripe.com/test/webhooks/create
+
 const express = require('express');
 const router = express.Router();
 
 const cartServices = require('../services/cart_items');
 const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
+
+
 router.get("/", async function(req,res){
     const cartItems = await cartServices.getUserCart(req.session.user.id);
-    
+
     // create the line items for the checkout session (aka invoice)
     const lineItems = [];
     // create the meta data
-    const meta = []; // we need it 
+    const meta = []; // we need it to remember for product_id how much purchased
+    // stripe is also for non-programmers, can manually input
 
     // cartItems is still an array of Bookshelf model instances
     for (let i of cartItems) {
         const lineItem = {
             'quantity': i.get('quantity'),
+            // HERE price_data is a required object for stripe
             'price_data':{
-                'currency':'SGD',
-                'unit_amount': i.related('product').get('cost'),
+                'currency':'USD',
+                'unit_amount': i.related('product').get('cost'), // get the cost from the product relationship
                 'product_data':{
                     'name': i.related('product').get('name'),
                     'description':i.related('product').get('description')
@@ -27,6 +33,7 @@ router.get("/", async function(req,res){
         }
 
         // check if the product has an image
+        // if have image, put inside the lineItem
         if (i.related('product').get('image_url')) {
             lineItem.price_data.product_data.images = [ i.related('product').get('image_url')]
         }
@@ -49,8 +56,8 @@ router.get("/", async function(req,res){
         payment_method_types:["card"],
         mode:'payment',
         line_items: lineItems,
-        success_url: process.env.STRIPE_SUCCESS_URL,
-        cancel_url: process.env.STRIPE_CANCELLED_URL,
+        success_url: process.env.GITPOD_URL+'/checkout/success',
+        cancel_url: process.env.GITPOD_URL+'/checkout/cancelled',
         metadata:{
             'orders': metaData
         }
@@ -64,18 +71,21 @@ router.get("/", async function(req,res){
     })
 })
 
+// dec20 checkout part 2
 // webhook endpoint for stripe
-router.post('/process_payment', express.raw({type: 'application/json'}), async function(req,res){
-    // verify that the request is actually sent from the stripe
+
+// we need to pass a csrf for this post -> method: use proxy middleware in ./index.js
+
+router.post('/process_payment', express.raw({typw:'application/json'}), async function(req,res){
+
+    // first verify the request is actually sent from the stripe
     const payload = req.body;
 
     // the stripe-signature will be a hash of the data that stripe is sending you
-    const signature = req.headers["stripe-signature"];
+    const signature = req.headers["stripe-signature"]
 
-    // endpoint secret
     const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
 
-    let event = null;
     try {
         event = Stripe.webhooks.constructEvent(payload, signature, endpointSecret);
     } catch (e) {
@@ -88,10 +98,10 @@ router.post('/process_payment', express.raw({type: 'application/json'}), async f
     // there is no error
     if (event.type == 'checkout.session.completed') {
         // session info
-        // todo: create new order, set delivery status, send recipet pdf to user
+        // todo: create new order, set delivery status, send recipient pdf to user
         console.log(event.data.object);
     }
-    res.sendStatus(200);
+    res.sendStatus(200)
 })
 
 router.get('/success', function(req,res){
@@ -99,7 +109,7 @@ router.get('/success', function(req,res){
 })
 
 router.get('/cancelled', function(req,res){
-    res.render("checkouts/cancelled")
+    res.render('checkouts/cancelled')
 })
 
 module.exports = router;
