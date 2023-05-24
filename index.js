@@ -91,6 +91,7 @@ const productRoutes = require('./routes/products');
 const userRoutes = require('./routes/users');
 const cloudinaryRoutes = require('./routes/cloudinary')
 const cartRoutes = require('./routes/cart')
+const { getUserCart } = require("./services/cart_items");
 
 async function main() {
 
@@ -111,6 +112,18 @@ app.use(function(req,res, next){
   next()
 })
 
+// share the number of items in the shopping cart across the website
+app.use(async function(req,res, next){
+  // if user is logged in, in the session file
+  if (req.session.user){
+    const cartItems = await getUserCart(req.session.user.id);
+    res.locals.cartItemCount = cartItems.toJSON().length;
+  } else {
+    res.locals.cartItemCount = 0 ;
+  }
+  next()
+  }
+)
 
 main();
 

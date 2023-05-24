@@ -50,22 +50,17 @@ async function updateQuantity(userId, productId, newQuantity) {
     }
 }
 
-module.exports = { createCartItem, getByProductAndUser, updateQuantity, getCart }
 
 
-// async function removeFromCart(userId, productId) {
-//     const cartItem = await getByProductAndUser(userId, productId);
-//     if (cartItem) {
-//         await cartItem.destroy();
-//         return true;
-//     }
-//     return false;
-// }
+async function removeFromCart(userId, productId) {
+    const cartItem = await getByProductAndUser(userId, productId);
+    if (cartItem) {
+        await cartItem.destroy();
+        return true;
+    }
+    return false;
+}
+
+module.exports = { createCartItem, getByProductAndUser, updateQuantity, getCart, removeFromCart }
 
 
-// module.exports = { createCartItem, 
-//     getByProductAndUser, 
-//     updateQuantity, 
-//     getCart,
-//     removeFromCart
-// };

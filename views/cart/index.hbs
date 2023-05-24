@@ -8,6 +8,7 @@
         <h5>Category: {{this.product.category.name}}</h5>
         <h5>Cost: {{this.product.cost}}</h5>
         <form method="POST" action="/cart/update/{{this.product.id}}">
+            {{!-- here _csrf makes the token hidden, stored in the global variable, must do ../csrfToken instead of this.csrfToken, to go one layer before--}}
             <input type="hidden" name="_csrf" value="{{../csrfToken}}"/>
             <h5>Quantity: <input type="text" value="{{this.quantity}}"
                     name="newQty" style="width:50px" /></h5>

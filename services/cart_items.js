@@ -1,12 +1,10 @@
-const {createCartItem, updateQuantity, getByProductAndUser} = require('../dal/cart_items')
+const {createCartItem, updateQuantity, getByProductAndUser, getCart, removeFromCart} = require('../dal/cart_items')
 
-const productDataLayer  = require("../dal/cart_items");
 const { CartItem } = require('../models');
 
 async function getUserCart(userId) {
-    return await productDataLayer.getCart(userId);
+    return await getCart(userId);
 }
-
 
 
 async function addToCart(userId, productId, quantity) {
@@ -24,15 +22,14 @@ async function addToCart(userId, productId, quantity) {
     return cartItem;
 }
 
-module.exports = { addToCart,getUserCart }
-// async function updateQuantity(userId, productId, newQuantity) {
-//     // todo: validiton regarding stock or whether the quantity be changed
-//     // according to the business rules
-//     return await productDataLayer.updateQuantity(userId, productId, newQuantity);
-// }
+async function updateCartItemQuantity(userId, productId, newQuantity) {
+    // todo: validiton regarding stock or whether the quantity be changed
+    // according to the business rules
+    return await updateQuantity(userId, productId, newQuantity);
+}
 
-// async function removeFromCart(userId, productId) {
-//     await productDataLayer.removeFromCart(userId, productId)
-// }
+async function removeCartItem(userId, productId) {
+    await removeFromCart(userId, productId)
+}
 
-// module.exports = { addToCart, getUserCart, updateQuantity, removeFromCart }
+module.exports = { addToCart, getUserCart, updateCartItemQuantity, removeCartItem }
