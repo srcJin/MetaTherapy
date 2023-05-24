@@ -9,7 +9,7 @@ const baseModule = require("hbs");
 const csrf = require('csurf')
 require("dotenv").config();
 
-// create an instance of express app
+// create an instance of express app 
 let app = express();
 
 // set the view engine
@@ -64,6 +64,18 @@ app.use(function (req, res, next) {
 // enable csurf
 // once enabled, all POST requests must have a csrf token
 
+// 20 dec
+// proxy middleware to pass csrf to stripe post
+const csrfInstance = csrf();
+app.use(function(req,res,next){
+  // check if the url we are accessing should excluded from csrf protection
+  // here we are not passing csrf to req
+  if (req.url == "./checkout/process_payment") {
+    return next();
+  }
+  csrfInstance(req,res,next); // implement protection for all other routes
+})
+
 app.use(csrf())
 // add a custom error handler for csrf middleware
 // must be immediately after app.use(csrf())
@@ -77,9 +89,17 @@ app.use(function (err, req, res, next) {
 });
 
 
+
 // create a middleware to share the csrf token with all hbs files
 app.use(function(req,res,next){
-  res.locals.csrfToken = req.csrfToken();
+  // dec 20 if we use proxy middleware, the req.csrf token might be undefined, because these routes are excluded from csrf
+  // so we need to check 
+
+  if (req.csrfToken) {
+    // req.csrfToken() will return a valid CSRF token
+    // and we make it avaliable to all hbs file via  `res.locals.csrfToken`
+    res.locals.csrfToken = req.csrfToken();
+  }
   next();
 })
 // then go to hbs files to put csrf token in the form using hidden input
@@ -92,7 +112,7 @@ const userRoutes = require('./routes/users');
 const cloudinaryRoutes = require('./routes/cloudinary')
 const cartRoutes = require('./routes/cart')
 const { getUserCart } = require("./services/cart_items");
-
+const checkoutRoutes = require('./routes/checkout')
 async function main() {
 
   // when apply app.use to a router
@@ -103,6 +123,7 @@ async function main() {
     app.use('/users', userRoutes)
     app.use('/cloudinary', cloudinaryRoutes)
     app.use('/cart', cartRoutes)
+    app.use('/checkout', checkoutRoutes)
 
 }
 
@@ -127,6 +148,6 @@ app.use(async function(req,res, next){
 
 main();
 
-app.listen(8888, () => {
-  console.log("Server has started, listen on 8888");
+app.listen(3333, () => {
+  console.log("Server has started, listen on 3333");
 });
