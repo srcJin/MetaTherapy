@@ -58,9 +58,18 @@ const Tag = bookshelf.model('Tag', {
 // create user model
 
 const User = bookshelf.model('User',{
-    tableName: 'users'
+    tableName: 'users',
+    cart_items() {
+        return this.hasMany('CartItem');
+    }
 })
 
-module.exports = {
-   Product, Category, Tag, User
-}
+const CartItem = bookshelf.model('CartItem', {
+    tableName: 'cart_items',
+    product() {
+        return this.belongsTo('Product')
+    }
+})
+
+module.exports = {Product, Category, Tag, User, CartItem};
+
