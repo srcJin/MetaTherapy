@@ -14,8 +14,6 @@
         },
         "host": {
             "ENV":"DB_HOST"
-        },
-        // added for using render
-        "ssl":"true"
+        }
     }
 }

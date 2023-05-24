@@ -8,94 +8,110 @@ const router = express.Router();
 
 const { Product, Category, Tag } = require("../models");
 
+
+
 router.get("/", async function (req, res) {
 
+    // get all the products
+    const products = await Product.collection().fetch({
+      withRelated:['tags'] // for each product, load in each of the tag
+  });
 
-    // get all the categories from the table
-    // and return them as an array of arrays
-    // each array represents one category: [<id>, <name of category>]
-
-    // this part has been moved to DAL Layer
-    const allCategories = await getAllCategories();
-    // unshift add the content to the first of the list
-    allCategories.unshift(["", 'Any category']);
-
-    const allTags = await getAllTags();
-
-    // 16 dec. search
-    const searchForm = createSearchForm(allCategories, allTags);
-
-    // always true query
-    // a query is not executeed at the database until you call it with fetch()
-    // here is using knex
-    const q = Product.collection();  // same as "SELECT * FROM products WHERE 1"
-
-    searchForm.handle(req, {
-        'success': async function(form) {
-
-            if (form.data.name) {
-                q.where('name', 'like', '%' + form.data.name + "%");
-            }
-
-            if (form.data.min_cost) {
-                q.where('cost', '>=', form.data.min_cost);
-            }
-
-            if (form.data.max_cost) {
-                q.where('cost', '<=', form.data.max_cost);
-            }
-
-            if (form.data.category_id) {
-                q.where('category_id', '=', form.data.category_id);
-            }
-
-            // search m2m relationship is different
-            // need to use knex join
-            if (form.data.tags) {
-                // ...JOIN products_tags ON products.id = products_tags.product_id
-                q.query('join', 'products_tags', 'products.id', 'product_id')
-                  .where('tag_id', 'in', form.data.tags.split(','))
-            }
-
-            const products = await q.fetch({
-                withRelated:['tags', 'category'] // for each product, load in each of the tag
-            });
-            res.render('products/index', {
-                'products': products.toJSON(), // convert all the products to JSON
-                'searchForm': form.toHTML(bootstrapField)
-            })
-
-        },
+  res.render('products', {
+      'products': products.toJSON() // convert all the products to JSON
+  })
 
 
-        'empty': async function(form ) {
-             // if the search form is empty (i.e, not filled in at all),
-             // just get all the products
-
-            // m2m relationship:  for each product, load in each of the tags
-                // withRelated: bookshelf will join the pivot table
-                // paul: use withRelated to load in associated relationship
-            const products = await q.fetch({
-                withRelated:['tags'] // for each product, load in each of the tag
-            });
-
-
-
-            res.render('products/index', {
-                'products': products.toJSON(), // convert all the products to JSON
-                'searchForm': form.toHTML(bootstrapField)
-            })
-        },
-        'error': function() {
-
-        }
-    })
-
-
-    // res.send("search somehow has error")
+  // res.send("search somehow has error")
 })
 
+router.get("/search", async function (req, res) {
 
+
+  // get all the categories from the table
+  // and return them as an array of arrays
+  // each array represents one category: [<id>, <name of category>]
+
+  // this part has been moved to DAL Layer
+  const allCategories = await getAllCategories();
+  // unshift add the content to the first of the list
+  allCategories.unshift(["", 'Any category']);
+
+  const allTags = await getAllTags();
+
+  // 16 dec. search
+  const searchForm = createSearchForm(allCategories, allTags);
+  // always true query
+  // a query is not executeed at the database until you call it with fetch()
+  // here is using knex
+  const q = Product.collection();  // same as "SELECT * FROM products WHERE 1"
+
+  searchForm.handle(req, {
+      'success': async function(form) {
+
+          if (form.data.name) {
+              q.where('name', 'like', '%' + form.data.name + "%");
+          }
+
+          if (form.data.min_cost) {
+              q.where('cost', '>=', form.data.min_cost);
+          }
+
+          if (form.data.max_cost) {
+              q.where('cost', '<=', form.data.max_cost);
+          }
+
+          if (form.data.category_id) {
+              q.where('category_id', '=', form.data.category_id);
+          }
+
+          // search m2m relationship is different
+          // need to use knex join
+          if (form.data.tags) {
+              // ...JOIN products_tags ON products.id = products_tags.product_id
+              q.query('join', 'products_tags', 'products.id', 'product_id')
+                .where('tag_id', 'in', form.data.tags.split(','))
+          }
+
+          const products = await q.fetch({
+              withRelated:['tags', 'category'] // for each product, load in each of the tag
+          });
+          // console.log("created search Form")
+
+          res.render('products/search', {
+              'products': products.toJSON(), // convert all the products to JSON
+              'searchForm': form.toHTML(bootstrapField)
+          })
+
+      },
+
+
+      'empty': async function(form ) {
+           // if the search form is empty (i.e, not filled in at all),
+           // just get all the products
+
+          // m2m relationship:  for each product, load in each of the tags
+              // withRelated: bookshelf will join the pivot table
+              // paul: use withRelated to load in associated relationship
+          const products = await q.fetch({
+              withRelated:['tags'] // for each product, load in each of the tag
+          });
+
+
+
+          res.render('products/search', {
+              'products': products.toJSON(), // convert all the products to JSON
+              'searchForm': form.toHTML(bootstrapField)
+          })
+      },
+      'error': function() {
+
+      }
+  })
+
+
+  // res.send("search somehow has error")
+})
 
 router.get("/add", async function (req, res) {
   // this part has been moved to DAL Layer

@@ -2,8 +2,12 @@
 
 {{#block "content"}}
 <h1>Therapy Shop</h1>
-<h2>list with search function</h2>
+<h2>List of all items</h2>
 
+<form method="GET">
+    {{{searchForm}}}
+     <input type="submit" value="Search" class="btn btn btn-outline-dark mt-3">
+</form>
 
 <table class="table">
     <thead>
