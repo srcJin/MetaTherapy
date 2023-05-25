@@ -52,116 +52,92 @@
 </head>
 
 <body>
+  <div class="container-fluid">
+    {{! use flash middleware to display success or error message }}
+
+          <div>
+<h1 class="mt-5">Hello1</h1>
+
+<h1 class="mt-5">Hello2</h1>
+<section class="background-radial-gradient overflow-hidden">
+    <style>
+        .background-radial-gradient {
+            background-color: hsl(218, 0%, 15%);
+            background-image: radial-gradient(650px circle at 0% 0%,
+                    hsl(218, 0%, 35%) 15%,
+                    hsl(218, 0%, 30%) 35%,
+                    hsl(218, 0%, 20%) 75%,
+                    hsla(218, 0%, 19%, 0.455) 80%,
+                    transparent 100%),
+                radial-gradient(1250px circle at 100% 100%,
+                    hsl(218, 0%, 45%) 15%,
+                    hsl(218, 0%, 30%) 35%,
+                    hsl(218, 0%, 20%) 75%,
+                    hsl(218, 0%, 19%) 80%,
+                    transparent 100%);
+        }
+
+        .bg-glass {
+            background-color: hsla(0, 0%, 100%, 0.9) !important;
+            backdrop-filter: saturate(200%) blur(25px);
+        }
+    </style>
+
+    <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+        <div class="row gx-lg-5 align-items-center mb-5">
+            <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+                <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 0%, 95%)">
+                    Welcome back to<br />
+                    <span style="color: hsl(218, 0%, 75%)">
+                        <h1 class="mt-2 my-5 display-5 fw-bold ls-tight">MetaTherapy! </h1>
+                    </span>
+                </h1>
+                <h4 class="mb-4 opacity-70" style="color: hsl(218, 0%, 85%)">
+                    Your second home for clean and healthy future.
+                    <h4>
+            </div>
+
+            <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+                <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
+                <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+
+                <div class="card bg-glass mt-5">
+                    <div class="card-body px-4 py-5 px-md-5">
+                        <form>
+                            <form method="POST">
+                                <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+                                {{{form}}}
+                                <div class="text-center">
+                                <input type="submit" value="Login" class="btn btn-secondary mt-3" />
+                                </div>
+
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
 
 
-  {{! Bootstrap 5 navbar }}
-  <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light mb-3">
-    <div class="container-fluid">
-      <img src="images/metatherapy_logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-
-      <a class="navbar-brand" href="/">MetaTherapy</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <svg class="bi d-block mx-auto" width="24" height="24">
-              <use xlink:href="#home" />
-            </svg>
-
-            <a class="nav-link active" aria-current="page" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <svg class="bi d-block mx-auto" width="24" height="24">
-              <use xlink:href="#grid" />
-            </svg>
-
-            <a class="nav-link" href="/products/">Shop</a>
-          </li>
-          <li class="nav-item">
-            <svg class="bi d-block mx-auto" width="24" height="24">
-              <use xlink:href="#table" />
-            </svg>
-
-            <a class="nav-link" href="/products/search">Search</a>
-          </li>
-          <li class="nav-item dropdown">
-            <svg class="bi d-block mx-auto" width="24" height="24">
-              <use xlink:href="#speedometer2" />
-            </svg>
-
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              Extra
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="/about">About</a></li>
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-              <li><a class="dropdown-item" href="https://github.com/srcJin/MetaTherapy">Github</a></li>
-
-            </ul>
-          </li>
-
-        </ul>
-        {{! <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form> }}
-
-        <div>
-          {{#if user}}
-          Welcome back,
-          {{user.username}}
-          <svg class="bi d-block mx-auto" width="24" height="24">
-            <use xlink:href="#people-circle" />
-          </svg>
-          <a href="/users/logout" class="btn btn-primary btn-sm">Logout</a>
-          <a href="/cart" class="btn btn-success btn-sm">Cart ({{cartItemCount}})</a>
-          {{else}}
-          Hello! Please
-          <a href="/users/login" class="btn btn-secondary btn-sm">Login</a>
-          or
-          <a href="/users/signup" class="btn btn-secondary btn-sm">Sign Up</a>
-          {{/if}}
+          </div>
 
         </div>
-
       </div>
-    </div>
-    <div></div>
-  </nav>
+      <div></div>
+    </nav>
+
+  </div>
 
   {{!-- end of top container --}}
 
-  {{#block "content"}}{{/block}}
-
-  <div class="container-fluid mt-5">
-    {{! use flash middleware to display success or error message }}
-    {{#if success_messages}}
-    {{#each success_messages}}
-    <div class="alert alert-success">
-      {{this}}
-    </div>
-    {{/each}}
-    {{/if}}
-
-    {{#if error_messages}}
-    {{#each error_messages}}
-    <div class="alert alert-danger">
-      {{this}}
-    </div>
-    {{/each}}
-
-    {{/if}}
-  </div>
+      {{#block "content"}}{{/block}}
 
   <!-- FOOTER -->
   <footer class="container mt-5">
     <p class="float-end"><a href="#">Back to top</a></p>
+
     <p>&copy; 2023 Jin Gao</p>
   </footer>
   </main>
