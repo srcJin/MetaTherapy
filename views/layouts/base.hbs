@@ -1,139 +1,119 @@
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Bootstrap 5 CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link href="../css/style.css" rel="stylesheet" />
-<link href="../css/carousel.css" rel="stylesheet" />
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <link href="../css/style.css" rel="stylesheet" />
+  <link href="../css/carousel.css" rel="stylesheet" />
 
-    <title>Metaverse Therapy</title>
-  </head>
-  <body>
-    <div class="container">
-      {{! use flash middleware to display success or error message }}
-      {{#if success_messages}}
-        {{#each success_messages}}
-          <div class="alert alert-success">
-            {{this}}
-          </div>
-        {{/each}}
-      {{/if}}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
 
-      {{#if error_messages}}
-        {{#each error_messages}}
-          <div class="alert alert-danger">
-            {{this}}
-          </div>
-        {{/each}}
+  <title>Metaverse Therapy</title>
+</head>
 
-      {{/if}}
-
-      {{! Bootstrap 5 navbar }}
-      <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light mb-3">
-        <div class="container-fluid">
-          <img src="images/metatherapy_logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-
-          <a class="navbar-brand" href="/">MetaTherapy</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/products/">Shop</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/products/search">Search</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Extra
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="/about">About</a></li>
-                  <li><hr class="dropdown-divider" /></li>
-                  <li><a class="dropdown-item" href="https://github.com/srcJin/MetaTherapy">Github</a></li>
-
-                </ul>
-              </li>
-
-            </ul>
-            {{! <form class="d-flex">
-              <input
-                class="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button
-                class="btn btn-outline-success"
-                type="submit"
-              >Search</button>
-            </form> }}
-
-            <div>
-              {{#if user}}
-                Welcome back,
-                {{user.username}}
-                <a
-                  href="/users/logout"
-                  class="btn btn-primary btn-sm"
-                >Logout</a>
-              <a href="/cart" class="btn btn-success btn-sm">Cart ({{cartItemCount}})</a>
-              {{else}}
-                Hello! Please
-                <a href="/users/login" class="btn btn-secondary btn-sm">Login</a>
-                or
-                <a href="/users/signup" class="btn btn-secondary btn-sm">Sign Up</a>
-              {{/if}}
-
-            </div>
-
-          </div>
-        </div>
-        <div ></div>
-      </nav >
-
-      {{#block "content"}}{{/block}}
-
+<body>
+  <div class="container-fluid">
+    {{! use flash middleware to display success or error message }}
+    {{#if success_messages}}
+    {{#each success_messages}}
+    <div class="alert alert-success">
+      {{this}}
     </div>
-      <!-- FOOTER -->
-      <footer class="container">
-        <p>&copy; 2023 Jin Gao</p>
-        <p class="float-end"><a href="#">Back to top</a></p>
-      </footer>
-    </main>
-   {{!-- javascript block --}}
+    {{/each}}
+    {{/if}}
 
-    {{#block "js"}}{{/block}}
-  </body>
+    {{#if error_messages}}
+    {{#each error_messages}}
+    <div class="alert alert-danger">
+      {{this}}
+    </div>
+    {{/each}}
+
+    {{/if}}
+
+    {{! Bootstrap 5 navbar }}
+    <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light mb-3">
+      <div class="container-fluid">
+        <img src="images/metatherapy_logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+
+        <a class="navbar-brand" href="/">MetaTherapy</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/products/">Shop</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/products/search">Search</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Extra
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="/about">About</a></li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li><a class="dropdown-item" href="https://github.com/srcJin/MetaTherapy">Github</a></li>
+
+              </ul>
+            </li>
+
+          </ul>
+          {{! <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form> }}
+
+          <div>
+            {{#if user}}
+            Welcome back,
+            {{user.username}}
+            <a href="/users/logout" class="btn btn-primary btn-sm">Logout</a>
+            <a href="/cart" class="btn btn-success btn-sm">Cart ({{cartItemCount}})</a>
+            {{else}}
+            Hello! Please
+            <a href="/users/login" class="btn btn-secondary btn-sm">Login</a>
+            or
+            <a href="/users/signup" class="btn btn-secondary btn-sm">Sign Up</a>
+            {{/if}}
+
+          </div>
+
+        </div>
+      </div>
+      <div></div>
+    </nav>
+
+    {{#block "content"}}{{/block}}
+
+  </div>
+  <!-- FOOTER -->
+  <footer class="container-fluid">
+    <p class="float-end"><a href="#">Back to top</a></p>
+
+    <p>&copy; 2023 Jin Gao</p>
+  </footer>
+  </main>
+  {{!-- javascript block --}}
+
+  {{#block "js"}}{{/block}}
+</body>
+
 </html>

@@ -11,3 +11,17 @@
       font-size: 3.5rem;
     }
   }
+
+  /********************************/
+/*            Overlay           */
+/********************************/
+/* overlay text */
+.overlay {
+  color: #fff;
+  position: absolute;
+  z-index: 12;
+  top: 60%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
