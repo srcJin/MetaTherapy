@@ -140,13 +140,24 @@ const createLoginForm = () => {
 // we set require to false for all the fields
 const createSearchForm = function (categories = [], tags = []) {
     return forms.create({
-        'name': fields.string({
-            required: false // required is false because all search criteria are optional
-        }),
+
 
         // using `fields.number` instead of `fields.string` means the textbox only accept numbers on the browser.
         // the value in the form is still a string (all values sent to the server will always be a string)
-
+        'category_id': fields.string({
+            label: 'Category',
+            required: false,
+            widget: widgets.select(), // use the select dropdown
+            choices: categories // `categories` is one of the parameters passed to the function
+        }),
+        'name': fields.string({
+            required: false // required is false because all search criteria are optional
+        }),
+        'tags': fields.string({
+            required: false,
+            widget: widgets.multipleSelect(),
+            choices: tags // `tags` is one of the parameters passed to the function
+        }),
         'min_cost': fields.number({
             required: false,
             validators: [validators.integer()],
@@ -157,17 +168,7 @@ const createSearchForm = function (categories = [], tags = []) {
             validators: [validators.integer()],
             widget: widgets.number()
         }),
-        'category_id': fields.string({
-            label: 'Category',
-            required: false,
-            widget: widgets.select(), // use the select dropdown
-            choices: categories // `categories` is one of the parameters passed to the function
-        }),
-        'tags': fields.string({
-            required: false,
-            widget: widgets.multipleSelect(),
-            choices: tags // `tags` is one of the parameters passed to the function
-        })
+
     })
 }
 
