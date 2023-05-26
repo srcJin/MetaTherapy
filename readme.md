@@ -2,8 +2,6 @@
 
 ### An online platform for drug addiction people to heal through the digital world.
 
-### **Metaverse Therapy**
-
 The **Metaverse Therapy** is an online platform for drug addiction people to heal through the digital world. It is now an online shop for drup addictive people to virtually purchase metaverse rooms, headshots, and treatment plans.
 
 Deployed Website: [https://metatherapy-test.onrender.com](https://metatherapy-test.onrender.com/)
