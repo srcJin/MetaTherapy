@@ -192,43 +192,23 @@ If you wish to present your testing steps in a clearer method, consider writing 
 
 | Test Case # | Test Case Description | Test Steps | Expected Result |
 | --- | --- | --- | --- |
-| 1 | Access Main Page | 1) Enter http://localhost:3000/ or deployed link
- | The home page successfully loaded with images displayed |
-| 2 | Jump to product section | 1) in main page, click the “Main Products” button
- | The page should scroll down to the beginning of Rooms section  |
+| 1 | Access Main Page | 1) Enter http://localhost:3000/ or deployed link| The home page successfully loaded with images displayed |
+| 2 | Jump to product section | 1) in main page, click the “Main Products” button| The page should scroll down to the beginning of Rooms section  |
 | 3 | Access shop | 1) click Shop icon in the navbar | The item cards with images will be shown, together with buttons to edit/remove/add to cart |
-| 4 | Search Products | 1) click Search icon in the navbar
-2) select tags, enter names, enter price ranges, and hit Search button | A list of filtered products should show up |
-| 5 | Create Products | 1) From Navbar - Extra - Add Product
-2) Enter product information
-3) Hit Submit New Product | The success message should be shown |
-| 6 | Upload images | 1) From Navbar - Extra - Add Product
-2) Enter product information
-3) Hit Upload Product Image
-4) Submit New Product | The link to the product image should be included in the database
-The images should be shown in other pages |
-| 7 | Update Products | 1) In Shop page, select one product and click edit
-2) Enter new product information
-3) Hit Submit | The success message should be shown |
+| 4 | Search Products | 1) click Search icon in the navbar 2) select tags, enter names, enter price ranges, and hit Search button | A list of filtered products should show up |
+| 5 | Create Products | 1) From Navbar - Extra - Add Productm2) Enter product information 3) Hit Submit New Product | The success message should be shown |
+| 6 | Upload images | 1) From Navbar - Extra - Add Product 2) Enter product information 3) Hit Upload Product Image 4) Submit New Product | The link to the product image should be included in the database The images should be shown in other pages |
+| 7 | Update Products | 1) In Shop page, select one product and click edit 2) Enter new product information 3) Hit Submit | The success message should be shown |
 | 8 | Remove Products | 1) In Shop page, select one product and click remove | The success message should be shown |
-| 9 | User Register | 1) In navbar, click sign up button
-2) enter related information
-3) hit  | The success message should be shown
-The users should be able to login |
-| 10 | User Login | 1) In navbar, click login button
-2) enter correct user info
-3) hit login | The success message should be shown
+| 9 | User Register | 1) In navbar, click sign up button 2) enter related information 3) hit  | The success message should be shownThe users should be able to login |
+| 10 | User Login | 1) In navbar, click login button 2) enter correct user info 3) hit login | The success message should be shown
 The users should be able to login |
 | 11 | User Logout | 1) In navbar, click logout button | The success message should be shown |
-| 12 | Add item to shopping cart | 1) In Shop page, select one product and click AddCart Button
-2) click the Cart button | The items should be included in the shopping cart |
-| 13 | Remove item in shopping cart | 1) In Shopping cart page, select one product and click Remove Button
- | The success message should be shown
+| 12 | Add item to shopping cart | 1) In Shop page, select one product and click AddCart Button 2) click the Cart button | The items should be included in the shopping cart |
+| 13 | Remove item in shopping cart | 1) In Shopping cart page, select one product and click Remove Button | The success message should be shown
 The product should be removed from the shopping cart |
-| 14 | Edit Quantity | 1) In Shopping cart page, select one product and edit the quantity
-2) click update quantity button | The quantity should be updated, and the total price should be updated accordingly |
-| 15 | Mobile Responsiveness | 1) Use developer mode to test the behavior of navbar and content layouts | The navbar should shrink to a hamburger icon
-The cards should be arranged into a list of one row |
+| 14 | Edit Quantity | 1) In Shopping cart page, select one product and edit the quantity 2) click update quantity button | The quantity should be updated, and the total price should be updated accordingly |
+| 15 | Mobile Responsiveness | 1) Use developer mode to test the behavior of navbar and content layouts | The navbar should shrink to a hamburger icon The cards should be arranged into a list of one row |
 
 # Deployment
 
