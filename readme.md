@@ -64,7 +64,7 @@ A refined shopping cart page with the ability to show product images, change the
 
 # Website map
 
-*## Main Pages:*
+## Main Pages:
 
 - Landing Page (Index page)
   - Router: /
@@ -78,7 +78,7 @@ A refined shopping cart page with the ability to show product images, change the
   - Router: /about
   - Description: This page contains author information and GitHub links.
 
-*## User related:*
+## User related:
 
 - Login Page
   - Router: /user/login
@@ -90,7 +90,7 @@ A refined shopping cart page with the ability to show product images, change the
   - Description: This is where a new user can register.
   - Design: Username, Password, Gender, Birthday, Nickname, Image Upload
 
-*## Product Listings:*
+## Product Listings:
 
 - Headshot Listing Page
   - Router: /shop/headshot
@@ -104,7 +104,7 @@ A refined shopping cart page with the ability to show product images, change the
   - Router: /shop/room
   - Description: Choose from a series of rooms specifically designed for you.
 
-*## Order Management:*
+## Order Management:
 
 - Shopping Cart Page
   - Router: /shop/cart
