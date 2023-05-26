@@ -18,8 +18,9 @@ router.get("/", async function (req, res) {
   });
 
   res.render('products', {
-      'products': products.toJSON() // convert all the products to JSON
+      'products': products.toJSON(), // convert all the products to JSON
   })
+  console.log(products.toJSON());
 
 
   // res.send("search somehow has error")
