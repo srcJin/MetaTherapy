@@ -1,5 +1,3 @@
-# A3 Design
-
 # **Metaverse Therapy**
 
 ### An online platform for drug addiction people to heal through the digital world.
