@@ -201,12 +201,10 @@ If you wish to present your testing steps in a clearer method, consider writing 
 | 7 | Update Products | 1) In Shop page, select one product and click edit 2) Enter new product information 3) Hit Submit | The success message should be shown |
 | 8 | Remove Products | 1) In Shop page, select one product and click remove | The success message should be shown |
 | 9 | User Register | 1) In navbar, click sign up button 2) enter related information 3) hit  | The success message should be shownThe users should be able to login |
-| 10 | User Login | 1) In navbar, click login button 2) enter correct user info 3) hit login | The success message should be shown
-The users should be able to login |
+| 10 | User Login | 1) In navbar, click login button 2) enter correct user info 3) hit login | The success message should be shown The users should be able to login |
 | 11 | User Logout | 1) In navbar, click logout button | The success message should be shown |
 | 12 | Add item to shopping cart | 1) In Shop page, select one product and click AddCart Button 2) click the Cart button | The items should be included in the shopping cart |
-| 13 | Remove item in shopping cart | 1) In Shopping cart page, select one product and click Remove Button | The success message should be shown
-The product should be removed from the shopping cart |
+| 13 | Remove item in shopping cart | 1) In Shopping cart page, select one product and click Remove Button | The success message should be shown. The product should be removed from the shopping cart |
 | 14 | Edit Quantity | 1) In Shopping cart page, select one product and edit the quantity 2) click update quantity button | The quantity should be updated, and the total price should be updated accordingly |
 | 15 | Mobile Responsiveness | 1) Use developer mode to test the behavior of navbar and content layouts | The navbar should shrink to a hamburger icon The cards should be arranged into a list of one row |
 
