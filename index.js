@@ -5,7 +5,7 @@ const wax = require("wax-on");
 const session = require('express-session');
 const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
-const baseModule = require("hbs");
+const handlebars= require("hbs");
 const csrf = require('csurf')
 const jwt = require('jsonwebtoken');
 require("dotenv").config();
@@ -32,7 +32,19 @@ app.use(
   })
 );
 
+// handlebar helpers
+handlebars.registerHelper("multiply", function(a,b) {
+  return a*b;
+});
 
+
+handlebars.registerHelper("getTotalPrice", function(cart) {
+  let totalPrice = 0;
+  for (item of cart) {
+    totalPrice+= item.product.cost*item.quantity
+  }
+  return totalPrice
+});
 
 
 // set up sessions before you import your routes

@@ -1,196 +1,126 @@
+# A3 Design
+
 # **Metaverse Therapy**
 
 ### An online platform for drug addiction people to heal through the digital world.
 
-## Pages:
+### **Metaverse Therapy**
 
-**Landing Page (Index page)**
+The **Metaverse Therapy** is an online platform for drug addiction people to heal through the digital world. It is now an online shop for drup addictive people to virtually purchase metaverse rooms, headshots, and treatment plans.
 
-Router: /
+Deployed Website: [https://metatherapy-test.onrender.com](https://metatherapy-test.onrender.com/)
+Note: all images, excluding the first hero image in black and white, are all generated with stable-diffusion. All prices are fake and for demonstration purpose.
+****
 
-Description: first impression to the user
+### UX/UI
 
-**Login Page**
+**Main Page**
 
-Router: /user/login
+Description: The first page is used to show the purpose of this website and guide the user to view the three key categories of the product: Room, headshots and treatment programs. The title image is carousel with fade effect.
 
-Description: user login
+![Untitled](readmeImages/Untitled.png)
 
-Design: username + password + captcha
+**Shop main page:**
 
-**Register page (Cloudinary API)**
+This page features product cards that allow users to filter and pick the product they like. It’s more like an admin page, products can be added to carts, edited and delete.
 
-Router: /user/register
+TODO: make it more customer oriented.
 
-Description: Register a new user
-Design:  username, password, gender, birthday, nickname, image upload
+![Untitled](readmeImages/Untitled.jpeg)
 
-**Headshot Listing Page**
+**Shop search page**
 
-Router: /shop/headshot
+Customer can search from a set of properties belongs to projects. Each product has its images formatted with the same size.
 
-Description: Upload your headshot then choose your new identity
-Create a series of AI-Generated Headshots for your semi-digital curing life.
+![Untitled](readmeImages/Untitled%201.png)
 
-**Room Listing Page**
+**Product creation page**
 
-Router: /shop/room
+![Untitled](readmeImages/Untitled%202.png)
 
-Description: Choose from a series of rooms specifically designed for you.
+A basic form to create product for administrative purpose.
 
-Design: 
+**User Login Page**
 
-**Shopping Cart Page**
+A stylized login page with customized background and greeting texts.
 
-Router: /shop/cart
+![Untitled](readmeImages/Untitled%203.png)
 
-Description: A list of selected items
+**User Registration Page**
 
-**Checkout Page ( Stripe API)**
+A stylized sign up page follow the style of the login page
 
-Router: /shop/checkout
+![Untitled](readmeImages/Untitled%204.png)
 
-Description: Purchase with your digital currency!
+**Shopping cart page**
 
-**About Page**
+A refined shopping cart page with the ability to show product images, change the quantity and calculate total prices for both each product and the whole cart.
 
-Router: /about
+![Untitled](readmeImages/Untitled%205.png)
 
-Description: author information and GitHub links
+**Checkout with Stripe**
 
-## Website map:
+![Untitled](readmeImages/Untitled%206.png)
 
-## Main Pages:
+# Website map
 
-### Landing Page (Index page)
+*## Main Pages:*
 
-Router: /
+- Landing Page (Index page)
+  - Router: /
+  - Description: This is the first impression to the user.
 
-Description: This is the first impression to the user.
+- Shop Page
+  - Router: /shop
+  - Description: This page allows users to select between different categories.
 
-### Shop Page
+- About Page
+  - Router: /about
+  - Description: This page contains author information and GitHub links.
 
-Router: /shop
+*## User related:*
 
-Description: This page allow users to select between different catagories
+- Login Page
+  - Router: /user/login
+  - Description: This is where the user logs in.
+  - Design: Username + Password + Email+ Captcha, auto-generate an user_id
 
-### About Page
+- Register page (Cloudinary API)
+  - Router: /user/register
+  - Description: This is where a new user can register.
+  - Design: Username, Password, Gender, Birthday, Nickname, Image Upload
 
-Router: /about
+*## Product Listings:*
 
-Description: This page contains author information and GitHub links.
+- Headshot Listing Page
+  - Router: /shop/headshot
+  - Description: Upload your headshot and choose your new identity. Create a series of AI-generated headshots for your semi-digital life.
 
-## User related:
+- Treatment Listing Page
+  - Router: /shop/treatment
+  - Description: Select from a series of fun drug treatments.
 
-### Login Page
+- Room Listing Page
+  - Router: /shop/room
+  - Description: Choose from a series of rooms specifically designed for you.
 
-Router: /user/login
+*## Order Management:*
 
-Description: This is where the user logs in.
+- Shopping Cart Page
+  - Router: /shop/cart
+  - Description: This page displays a list of selected items.
 
-Design: Username + Password + Email+ Captcha, auto-generate an user_id
+- Checkout Page (Stripe API)
+  - Router: /shop/checkout
+  - Description: This page allows you to purchase with your digital currency.
 
-### Register page (Cloudinary API)
+- Order Page
+  - Router: /shop/order
+  - Description: Manage orders.
 
-Router: /user/register
+## Database Design
 
-Description: This is where a new user can register.
-
-Design: Username, Password, Gender, Birthday, Nickname, Image Upload
-
-## Product Listings:
-
-### Headshot Listing Page
-
-Router: /shop/headshot
-
-Description: Upload your headshot and choose your new identity. Create a series of AI-generated headshots for your semi-digital life.
-
-### Treatment Listing Page
-
-Router: /shop/treatment
-
-Description: select from a series of fun drug treatments
-
-### Room Listing Page
-
-Router: /shop/room
-
-Description: Choose from a series of rooms specifically designed for you.
-
-Design:
-
-## Order Management:
-
-### Shopping Cart Page
-
-Router: /shop/cart
-
-Description: This page displays a list of selected items.
-
-### Checkout Page (Stripe API)
-
-Router: /shop/checkout
-
-Description: This page allows you to purchase with your digital currency.
-
-### Order Page
-
-Router: /shop/order
-
-Description: Manage orders
-
-### 
-
-## Database Design:
-
-```sql
-Mysql -u root
-CREATE USER 'jin'@'%' IDENTIFIED WITH mysql_native_password BY '123456';
-grant all privileges on *.* to 'jin'@'%';
-FLUSH PRIVILEGES; // flush will refresh the privileges without restarting the mysql
-```
-
-```sql
-create database sitedb;
-DROP DATABASE mydb;
-```
-
-```sql
-./db-migrate.sh create rooms
-```
-
-```sql
-mysql -u root
-use sitedb;
-show tables;
-describe rooms;
-```
-
-```sql
-+-------------+--------------+------+-----+---------+----------------+
-| Field       | Type         | Null | Key | Default | Extra          |
-+-------------+--------------+------+-----+---------+----------------+
-| room_id     | int unsigned | NO   | PRI | NULL    | auto_increment |
-| name        | varchar(255) | NO   |     | NULL    |                |
-| cost        | int          | YES  |     | NULL    |                |
-| description | text         | YES  |     | NULL    |                |
-| image_url   | text         | YES  |     | NULL    |                |
-| category_id | int          | YES  |     | NULL    |                |
-+-------------+--------------+------+-----+---------+----------------+
-6 rows in set (0.00 sec)
-```
-
-```sql
-**./db-migrate.sh -- up**
-./db-migrate.sh -- down
-```
-
-up: execute the instructions
-
-down: undo the instructions
-
-### Table: Users
+### Table: users
 
 | Column Name | Data Type | Key | Note |
 | --- | --- | --- | --- |
@@ -198,105 +128,141 @@ down: undo the instructions
 | username | VARCHAR(50) | UNIQUE | notNull, length:255 |
 | password | VARCHAR(255) |  |  |
 | email | VARCHAR(100) | UNIQUE |  |
-| address | VARCHAR(200) |  | hidden |
-| phone_number | VARCHAR(20) |  | not now |
 
-### Table: Categories
+### Table: categories
 
 | Column Name | Data Type | Key |
 | --- | --- | --- |
 | category_id | INT | PRIMARY |
 | name | VARCHAR(50) | UNIQUE |
-| parent_id | INT |  |
 
-### Table: Rooms
+### Table: products
 
 | Column Name | Data Type | Key |
 | --- | --- | --- |
-| room_id | INT | PRIMARY |
+| id | INT | PRIMARY |
 | name | VARCHAR(100) |  |
 | description | TEXT |  |
 | cost | DECIMAL(10, 2) |  |
 | image_url | VARCHAR(200) |  |
 | category_id | INT | FOREIGN KEY (Categories.category_id) |
+| brand_id | INT | FOREIGN KEY (BRAND NOT IMPLEMENTED YET) |
 
-### Table: Headshots
+### Table: products_tags
 
 | Column Name | Data Type | Key |
 | --- | --- | --- |
-| headshot_id | INT | PRIMARY |
-| name | VARCHAR(100) |  |
-| description | TEXT |  |
-| cost | DECIMAL(10, 2) |  |
-| image_url | VARCHAR(200) |  |
+| id | INT | PRIMARY |
+| product_id | INT |  |
 | category_id | INT | FOREIGN KEY (Categories.category_id) |
 
-### Table: Treatments
+### Table: tags
 
 | Column Name | Data Type | Key |
 | --- | --- | --- |
-| treatment_id | INT | PRIMARY |
+| id | INT | PRIMARY |
 | name | VARCHAR(100) |  |
-| description | TEXT |  |
-| cost | DECIMAL(10, 2) |  |
-| image_url | VARCHAR(200) |  |
-| category_id | INT | FOREIGN KEY (Categories.category_id) |
 
-### Table: Shopping_Carts
+### Table: cart_items
 
 | Column Name | Data Type | Key |
 | --- | --- | --- |
-| item_id | INT | PRIMARY |
-| order_id | INT | FOREIGN KEY (Orders.order_id) |
+| id | INT | PRIMARY |
+| user_id | INT | FOREIGN KEY (users.user_id) |
 | product_id | INT | FOREIGN KEY (Products.product_id) |
 | quantity | INT |  |
-| price | DECIMAL(10, 2) |  |
 
-### Table: Orders
+# Use Cases
 
-| Column Name | Data Type | Key |
-| --- | --- | --- |
-| order_id | INT | PRIMARY |
-| user_id | INT | FOREIGN KEY (Users.user_id) |
-| date | DATETIME |  |
-| total_price | DECIMAL(10, 2) |  |
+1. Users should access the main page to get the core idea of the website and have easy access to shopping pages and user-related functions
+2. Users should be able to browse the products smoothly with proper information, format, and images. They are able to record their selection using the shopping cart function.
+3. Users should be able to easily change the products they what to buy, including total quantity, and the items.
+4. Users should be able to check out and pay.
+5. The website admin should be able to manage new products, input information including images to the database. They should also be able to manage the products by changing the price and remove some products.
 
-### Table: Order_Items
+# Technologies Used
 
-| Column Name | Data Type | Key |
-| --- | --- | --- |
-| item_id | INT | PRIMARY |
-| order_id | INT | FOREIGN KEY (Orders.order_id) |
-| product_id | INT | FOREIGN KEY (Products.product_id) |
-| quantity | INT |  |
-| price | DECIMAL(10, 2) |  |
+Bootstrap 5.0.2, Express, Handlebars, Wax, Knex, Bookshelf, Forms, Cloudinary, Stripe, Flash, MySQL, PostgreSQL, Render.com, GitPod, GitHub desktop
 
-This is just a basic design and can be modified based on the specific needs of your shopping website.
+# Testing
 
-Sure, here are the relationships between the tables:
+### Test Cases
 
-- The relationship between the `Users` table and the `Headshots` table is one-to-many, as one user can have multiple headshots but each headshot belongs to only one user.
-- The relationship between the `Users` table and the `Cart` table is also one-to-many, as one user can have multiple items in their cart but each cart belongs to only one user.
-- The relationship between the `Headshots` table and the `Cart` table is many-to-many, as multiple headshots can be added to multiple carts. To represent this relationship, we use a third table called a junction table or an association table, which in this case is the `Cart` table.
-- The relationship between the `Rooms` table and the `Cart` table is also many-to-many, as multiple rooms can be added to multiple carts. Again, we use the `Cart` table as the junction table to represent this relationship.
-- The relationship between the `Cart` table and the `Orders` table is one-to-one, as each cart can be associated with only one order but each order can be associated with only one cart.
+If you wish to present your testing steps in a clearer method, consider writing *test cases*. A test case consists of the following structure:
 
+| Test Case # | Test Case Description | Test Steps | Expected Result |
+| --- | --- | --- | --- |
+| 1 | Access Main Page | 1) Enter http://localhost:3000/ or deployed link
+ | The home page successfully loaded with images displayed |
+| 2 | Jump to product section | 1) in main page, click the “Main Products” button
+ | The page should scroll down to the beginning of Rooms section  |
+| 3 | Access shop | 1) click Shop icon in the navbar | The item cards with images will be shown, together with buttons to edit/remove/add to cart |
+| 4 | Search Products | 1) click Search icon in the navbar
+2) select tags, enter names, enter price ranges, and hit Search button | A list of filtered products should show up |
+| 5 | Create Products | 1) From Navbar - Extra - Add Product
+2) Enter product information
+3) Hit Submit New Product | The success message should be shown |
+| 6 | Upload images | 1) From Navbar - Extra - Add Product
+2) Enter product information
+3) Hit Upload Product Image
+4) Submit New Product | The link to the product image should be included in the database
+The images should be shown in other pages |
+| 7 | Update Products | 1) In Shop page, select one product and click edit
+2) Enter new product information
+3) Hit Submit | The success message should be shown |
+| 8 | Remove Products | 1) In Shop page, select one product and click remove | The success message should be shown |
+| 9 | User Register | 1) In navbar, click sign up button
+2) enter related information
+3) hit  | The success message should be shown
+The users should be able to login |
+| 10 | User Login | 1) In navbar, click login button
+2) enter correct user info
+3) hit login | The success message should be shown
+The users should be able to login |
+| 11 | User Logout | 1) In navbar, click logout button | The success message should be shown |
+| 12 | Add item to shopping cart | 1) In Shop page, select one product and click AddCart Button
+2) click the Cart button | The items should be included in the shopping cart |
+| 13 | Remove item in shopping cart | 1) In Shopping cart page, select one product and click Remove Button
+ | The success message should be shown
+The product should be removed from the shopping cart |
+| 14 | Edit Quantity | 1) In Shopping cart page, select one product and edit the quantity
+2) click update quantity button | The quantity should be updated, and the total price should be updated accordingly |
+| 15 | Mobile Responsiveness | 1) Use developer mode to test the behavior of navbar and content layouts | The navbar should shrink to a hamburger icon
+The cards should be arranged into a list of one row |
 
+# Deployment
 
-# Based on Framework Project
+**Hosting platform:** [render.com](http://render.com) for both database and web application
+
+**Environment variables: .env files**
 
 ## Dependencies
-* `express`
-* `hbs`
-* `wax-on`
-* `dotenv`
-* `knex`
-* `bookshelf`
-* `forms`
-* `express-session`
-* `session-file-store`
-* `connect-flash`
-* `cloudinary`
-* `csurf`
-* `stripe`
-* `jsonwebtoken`
+
+- `express`
+- `hbs`
+- `wax-on`
+- `dotenv`
+- `knex`
+- `bookshelf`
+- `forms`
+- `express-session`
+- `session-file-store`
+- `connect-flash`
+- `cloudinary`
+- `csurf`
+- `stripe`
+- `jsonwebtoken`
+
+# Credits
+
+Bootstrap 5.0.2: [https://getbootstrap.com/docs/5.3/getting-started/introduction/](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+
+Bootstrap examples: [https://getbootstrap.com/docs/5.3/examples/](https://getbootstrap.com/docs/5.3/examples/)   
+
+Referenced examples: ****[Carousel](https://getbootstrap.com/docs/5.3/examples/carousel/), Navbars, Product**
+
+Login page reference: [https://mdbootstrap.com/docs/standard/extended/login/](https://mdbootstrap.com/docs/standard/extended/login/)  
+
+Template name: ****Registration page****
+
+Framework codes reference: [https://github.com/kunxin-chor/dwad20-framework](https://github.com/kunxin-chor/dwad20-framework)
