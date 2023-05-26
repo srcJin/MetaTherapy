@@ -237,10 +237,10 @@ Bootstrap 5.0.2: [https://getbootstrap.com/docs/5.3/getting-started/introduction
 
 Bootstrap examples: [https://getbootstrap.com/docs/5.3/examples/](https://getbootstrap.com/docs/5.3/examples/)   
 
-Referenced examples: ****[Carousel](https://getbootstrap.com/docs/5.3/examples/carousel/), Navbars, Product**
+Referenced examples: [Carousel](https://getbootstrap.com/docs/5.3/examples/carousel/), Navbars, Product
 
 Login page reference: [https://mdbootstrap.com/docs/standard/extended/login/](https://mdbootstrap.com/docs/standard/extended/login/)  
 
-Template name: ****Registration page****
+Template name: Registration page
 
 Framework codes reference: [https://github.com/kunxin-chor/dwad20-framework](https://github.com/kunxin-chor/dwad20-framework)
