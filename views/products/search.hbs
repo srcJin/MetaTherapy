@@ -11,7 +11,6 @@
     <form method="GET">
         {{{searchForm}}}
         <div class="text-center">
-
             <input type="submit" value="Search" class="btn btn-lg btn-outline-dark mt-3">
         </div>
     </form>
@@ -45,7 +44,7 @@
                 <td>{{this.description}}</td>
                 <td>
                     {{#if this.image_url}}
-                    <img src="{{this.image_url}}" />
+                <img src="{{this.image_url}}" width="150" height="150"/>
                     {{/if}}
                 </td>
 
