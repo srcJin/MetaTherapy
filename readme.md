@@ -208,6 +208,17 @@ If you wish to present your testing steps in a clearer method, consider writing 
 | 14 | Edit Quantity | 1) In Shopping cart page, select one product and edit the quantity 2) click update quantity button | The quantity should be updated, and the total price should be updated accordingly |
 | 15 | Mobile Responsiveness | 1) Use developer mode to test the behavior of navbar and content layouts | The navbar should shrink to a hamburger icon The cards should be arranged into a list of one row |
 
+## Known Bugs
+1. Price formatting should divide by 100
+2. Site logo have issue shown in other pages than the home page
+3. The filter function in shop page can't work
+4. The category text in the shop page is not able to fetch the ones from database
+
+## Todo
+1. add more item catagories
+2. add administration identity other than users
+3. add more columns to the database and reflects to the items
+
 # Deployment
 
 **Hosting platform:** [render.com](http://render.com) for both database and web application
